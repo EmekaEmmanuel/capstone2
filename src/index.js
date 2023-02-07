@@ -1,6 +1,5 @@
 import './style.css';
 
-
 import Github from './images/github.svg';
 
 const loadGithubIcon = () => {
@@ -18,8 +17,6 @@ const loadGithubIcon = () => {
   github2.setAttribute('class', 'github-icon');
 };
 
-
 window.onload = () => {
- 
   loadGithubIcon();
 };
