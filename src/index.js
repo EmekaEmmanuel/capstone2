@@ -1,67 +1,69 @@
 import './css/home.css';
+import './css/reservationStyle.css';
 import { getAllShowsURL } from './config.js';
 import getAllShows from './api/getAllShows.js';
-import { displayHomeUI } from './pageUI/displayHomeUI.js'
-import loveImg from './images/love.png'
+import { displayHomeUI } from './pageUI/displayHomeUI.js';
+import loveImg from './images/love.png';
+import reservationUI from './pageUI/reservationUI.js';
 
-let bodyTag = document.querySelector('.home_body')
+const bodyTag = document.querySelector('.home_body');
 
 const HomeUI = () => {
-  bodyTag.innerHTML = displayHomeUI()
-}
+  bodyTag.innerHTML = displayHomeUI() + reservationUI();
+};
 
-HomeUI()
+HomeUI();
 
-let navTag = document.querySelector('.nav_list')
-let homeSection1Tag = document.querySelector('.home_section1')
-let homeSection2Tag = document.querySelector('.home_section2')
-let homeSection3Tag = document.querySelector('.home_section3')
+const navTag = document.querySelector('.nav_list');
+const homeSection1Tag = document.querySelector('.home_section1');
+const homeSection2Tag = document.querySelector('.home_section2');
+const homeSection3Tag = document.querySelector('.home_section3');
 
 const activateClickedSpan = (par) => {
-  par.classList.add("home_active")
-  par.classList.remove("home_hidden")
-}
+  par.classList.add('home_active');
+  par.classList.remove('home_hidden');
+};
 
 const activateClickedSection = (par) => {
-  par.classList.add("home_active")
-  par.classList.remove("home_hidden")
-}
+  par.classList.add('home_active');
+  par.classList.remove('home_hidden');
+};
 
 const spanActiveRemove = () => {
-  let spanTags = document.querySelectorAll(".home_span")
+  const spanTags = document.querySelectorAll('.home_span');
   spanTags.forEach((span) => {
-    span.classList.remove("home_active")
-    span.classList.add("home_hidden")
-  })
-}
+    span.classList.remove('home_active');
+    span.classList.add('home_hidden');
+  });
+};
 
 const sectionActiveRemove = () => {
-  let sectionTags = document.querySelectorAll(".grid_container")
-  sectionTags.forEach((section) => { 
-    section.classList.remove("home_active")
-    section.classList.add("home_hidden")
-  }) 
-}
+  const sectionTags = document.querySelectorAll('.grid_container');
+  sectionTags.forEach((section) => {
+    section.classList.remove('home_active');
+    section.classList.add('home_hidden');
+  });
+};
 
 const dynamicNav = async () => {
-  let data = (await getAllShows(getAllShowsURL))
-  let navtemp = ""
-  for (let i = 0; i < data.length; i += 1) { 
-    navtemp +=
-      `
+  const data = (await getAllShows(getAllShowsURL));
+  let navtemp = '';
+  for (let i = 0; i < data.length; i += 1) {
+    navtemp
+      += `
 <li class="font2 nav_item tab_active" data-tab=${i + 1}>
-${data[i].title + " "}<span class="home_span ${i === 0 ? "home_active" : ''} span${i + 1} span_active">(${data[i].total})</span>
-</li>`; 
+${`${data[i].title} `}<span class="home_span ${i === 0 ? 'home_active' : ''} span${i + 1} span_active">(${data[i].total})</span>
+</li>`;
   }
-  navTag.innerHTML = navtemp
-}
+  navTag.innerHTML = navtemp;
+};
 
 const homeCard1 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[0].data 
-  let articletemp = ""
-  for (let i = 0; i < data.length; i += 1) { 
-    articletemp +=
-      `<article class="home_article" key=${data[i].id}> 
+  const { data } = (await getAllShows(getAllShowsURL))[0];
+  let articletemp = '';
+  for (let i = 0; i < data.length; i += 1) {
+    articletemp
+      += `<article class="home_article" key=${data[i].id}> 
 <figure>
  <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
 </figure>
@@ -82,17 +84,16 @@ const homeCard1 = async () => {
   <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
 </article>`;
-
   }
-  homeSection1Tag.innerHTML = articletemp
-}
+  homeSection1Tag.innerHTML = articletemp;
+};
 
 const homeCard2 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[1].realityGenre 
-  let articletemp = ""
-  for (let i = 0; i < data.length; i += 1) { 
-    articletemp +=
-      `<article class="home_article" key=${data[i].id}> 
+  const data = (await getAllShows(getAllShowsURL))[1].realityGenre;
+  let articletemp = '';
+  for (let i = 0; i < data.length; i += 1) {
+    articletemp
+      += `<article class="home_article" key=${data[i].id}> 
 <figure>
    <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
 </figure>
@@ -112,17 +113,17 @@ const homeCard2 = async () => {
   <button id=${data[i].id} class="comment_btn font3">Comments</button>
   <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
-</article>`; 
+</article>`;
   }
-  homeSection2Tag.innerHTML = articletemp  
-}
+  homeSection2Tag.innerHTML = articletemp;
+};
 
 const homeCard3 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[2].animationGenre 
-  let articletemp = ""
-  for (let i = 0; i < data.length; i += 1) { 
-    articletemp +=
-      `<article class="home_article" key=${data[i].id}> 
+  const data = (await getAllShows(getAllShowsURL))[2].animationGenre;
+  let articletemp = '';
+  for (let i = 0; i < data.length; i += 1) {
+    articletemp
+      += `<article class="home_article" key=${data[i].id}> 
 <figure>
   <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
 </figure> 
@@ -139,24 +140,24 @@ const homeCard3 = async () => {
   <button id=${data[i].id} class="comment_btn font3">Comments</button>
   <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
-</article>`; 
+</article>`;
   }
-  homeSection3Tag.innerHTML = articletemp 
-}
+  homeSection3Tag.innerHTML = articletemp;
+};
 
 window.addEventListener('load', async () => {
-  await dynamicNav()
-  await homeCard1()
-  await homeCard2()
-  await homeCard3()  
-})
+  await dynamicNav();
+  await homeCard1();
+  await homeCard2();
+  await homeCard3();
+});
 
-navTag.addEventListener("click", async (e) => { 
-  let clicked = e.target.closest('.nav_item') 
-  let clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`)
-  let clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`)
-  spanActiveRemove()
-  activateClickedSpan(clickedSpan)
-  sectionActiveRemove()
-  activateClickedSection(clickedSection) 
-}) 
+navTag.addEventListener('click', async (e) => {
+  const clicked = e.target.closest('.nav_item');
+  const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
+  const clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`);
+  spanActiveRemove();
+  activateClickedSpan(clickedSpan);
+  sectionActiveRemove();
+  activateClickedSection(clickedSection);
+});

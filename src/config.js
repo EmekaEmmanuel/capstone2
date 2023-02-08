@@ -1,3 +1,3 @@
-const getAllShowsURL  = 'https://api.tvmaze.com/shows';
+const getAllShowsURL = 'https://api.tvmaze.com/shows';
 
-export {getAllShowsURL}
+export { getAllShowsURL };

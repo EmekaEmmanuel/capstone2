@@ -1,4 +1,4 @@
-import githubIcon from "../images/github.svg";
+import githubIcon from '../images/github.svg';
 
 const displayHomeUI = () => `
 <header class="home_header">
