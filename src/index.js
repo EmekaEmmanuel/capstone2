@@ -6,11 +6,12 @@ import loveImg from './images/love.png'
 
 let bodyTag = document.querySelector('.home_body')
 
-const initializeHomeUI = () => {
+const HomeUI = () => {
   bodyTag.innerHTML = displayHomeUI()
 }
 
-initializeHomeUI()
+HomeUI()
+
 let navTag = document.querySelector('.nav_list')
 let homeSection1Tag = document.querySelector('.home_section1')
 let homeSection2Tag = document.querySelector('.home_section2')
