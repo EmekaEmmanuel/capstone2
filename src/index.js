@@ -143,49 +143,6 @@ const homeCard3 = async () => {
   homeSection3Tag.innerHTML = articletemp 
 }
 
-// listBody.addEventListener('click', (e) => {
-//   const checkClickedBtn = e.target.classList.contains('remove_btn');
-//   const checkEditBtn = e.target.classList.contains('describ');
-//   const checkCheckBox = e.target.classList.contains('checkbox_tag');
-//   if (checkClickedBtn) {
-//     const clicked = e.target;
-//     this.removeToDo(clicked);
-//   }
-//   if (checkEditBtn) {
-//     const clickCheckEditBtn = e.target;
-//     this.updateDescriptions(clickCheckEditBtn);
-//   }
-//   if (checkCheckBox) {
-//     const clickCheckBoxBtn = e.target;
-//     this.updateTaskStatus(clickCheckBoxBtn);
-//   }
-// });
-
-// let likeBtn = document.querySelector('.like_btn')
-// console.log(likeBtn)
-// let countTag = document.querySelector('.count')
-// let count = countTag.innerHTML
-// let countValue = parseFloat(count)
-// let updateCount = countValue
-
-// const increaseLike = (value) => {
-//   console.log(value)
-//   let likeCount = value + 1
-//   updateCount = likeCount
-//   console.log(updateCount)
-// }
-
-// let displayCountHtml = () => {
-//   countTag.innerHTML = ""
-//   countTag.innerHTML = updateCount
-// }
-
-// likeBtn.addEventListener('click', () => {
-//   increaseLike(updateCount)
-//   displayCountHtml()
-// })
-
-
 window.addEventListener('load', async () => {
   await dynamicNav()
   await homeCard1()

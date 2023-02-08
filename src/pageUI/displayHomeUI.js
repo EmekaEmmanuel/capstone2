@@ -1,4 +1,6 @@
-const displayHomeUI = () =>  `
+import githubIcon from "../images/github.svg";
+
+const displayHomeUI = () => `
 <header class="home_header">
 
 <div class="logo">
@@ -16,8 +18,20 @@ const displayHomeUI = () =>  `
 <section class="home_section3 grid_container home_hidden"></section>
 
 <footer class="home_footer">
-<p class="font5">&#169; Created by Microverse students under CC BY-SA license</p>
+<p class="font5">&#169; Created by Microverse students;  <a href="https://github.com/EmekaEmmanuel" target="_blank"
+><strong
+  >Emeka Emmanuel<span><img class="githubicon" src=${githubIcon} alt="" id="github1" /></span></strong
+></a>
+<a href="https://github.com/jugosack" target="_blank"
+><strong
+  > Zewdu<span><img class="githubicon" src=${githubIcon} alt="" id="github1" /></span></strong
+></a>
+<a href="https://github.com/zewdu444" target="_blank"
+><strong
+  > Jugoslav<span><img class="githubicon" src=${githubIcon} alt="" id="github1" /></span></strong
+></a>
+ under CC BY-SA license</p> 
 </footer>
 `;
 
-export  {displayHomeUI};
+export { displayHomeUI };

@@ -124,10 +124,22 @@
 }
 
 .home_hidden {
-    display:none;
+    display: none;
 }
 
+.githubicon {
+    width: 1.2rem;
+    color: white;
+    margin: -12px 3px -6px;
+    background-color: white;
+    border-radius: 50%;
+}
 
+footer a {
+    text-decoration: none;
+    color: black;
+  }
+  
 @media only screen and (max-width: 425px) {
     .home_header {
         width: 90%;
@@ -136,7 +148,7 @@
         padding: 30px 0 60px 0;
         gap: 20px;
     }
-    
+
     .home_header nav {
         list-style: none;
         display: flex;
@@ -153,5 +165,4 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 80px;
     }
-  }
-  
+}
