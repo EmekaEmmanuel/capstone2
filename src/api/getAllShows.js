@@ -13,7 +13,7 @@ let getAllShows = async (baseURL) => {
             let animationLength = animationGenre.length;
             console.log([{ title: "Shows", data, datalength }, { title: "Reality", realityGenre, realityLength }, { title: "Animation", animationGenre, animationLength }
         ])
-            return [{ title: "Shows", data, datalength }, { title: "Reality", realityGenre, realityLength }, { title: "Animation", animationGenre, animationLength }];
+            return [{ title: "Shows", data, total:datalength }, { title: "Reality", realityGenre, total:realityLength }, { title: "Animation", animationGenre, total:animationLength }];
         }
     } catch (error) {
         throw new Error()

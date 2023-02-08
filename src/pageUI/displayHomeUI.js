@@ -6,17 +6,7 @@ const displayHomeUI = () =>  `
 </div>
 
 <nav class="nav_list">
-  <li class="font2 nav_item tab_active" data-tab="1">
-    All Shows <span class="home_span home_active span1 span_active"> 6</span>
-  </li>
-
-  <li class="font2 nav_item" data-tab="2">
-    Blockbusters <span class="home_span home_hidden span2 span_active"> 6</span>
-  </li>
-
-  <li class="font2 nav_item"data-tab="3"'>
-  Most Viewed <span class="home_span home_hidden span3 span_active"> 6</span>
-  </li>
+ 
 </nav>
 
 </header>

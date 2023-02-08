@@ -49,8 +49,7 @@ let sectionActiveRemove = () => {
 }
 
 const dynamicNav = async () => {
-  let data = (await getAllShows(getAllShowsURL))
-  // console.log(data.data)
+  let data = (await getAllShows(getAllShowsURL)) 
   let navtemp = ""
   for (let i = 0; i < data.length; i += 1) {
     // let cardData = data.data
@@ -58,7 +57,7 @@ const dynamicNav = async () => {
     navtemp +=
       `
 <li class="font2 nav_item tab_active" data-tab=${i+1}>
-${data[i].title} <span class="home_span ${i===0?"home_active":''} span${i+1} span_active"> ${data[i].datalength}</span>
+${data[i].title} <span class="home_span ${i===0?"home_active":''} span${i+1} span_active"> ${data[i].total}</span>
 </li>`;
 
   }
@@ -74,7 +73,7 @@ const homeCard1 = async () => {
     // let cardData = data.data
     // console.log(data[i])
     articletemp +=
-      `<article class="home_article" id=${data[i].id}> 
+      `<article class="home_article" key=${data[i].id}> 
 <figure>
  <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
 </figure>
@@ -85,14 +84,14 @@ const homeCard1 = async () => {
   </div>
 
   <div>
-    <img class="like_btn" src=${loveImg} alt="">
+    <img id=${data[i].id} class="like_btn" src=${loveImg} alt="">
     <p class="font4"><span class="count">5</span> likes </p>
   </div>
 </div>
 
 <div class="home_buttons">
-  <button class="comment_btn font3">Comments</button>
-  <button class="reserve_btn font3">Reservations</button>
+  <button id=${data[i].id} class="comment_btn font3">Comments</button>
+  <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
 </article>`;
 
@@ -119,7 +118,7 @@ const homeCard2 = async () => {
   </div>
 
   <div>
-    <img class="like_btn" src=${loveImg} alt="">
+    <img id=${data[i].id} class="like_btn" src=${loveImg} alt="">
     <p class="font4"><span class="count">5</span> likes </p>
   </div>
 </div>
@@ -144,7 +143,7 @@ const homeCard3 = async () => {
     // let cardData = data.data
     // console.log(data[i])
     articletemp +=
-      `<article class="home_article" id=${data[i].id}> 
+      `<article class="home_article" key=${data[i].id}> 
 <figure>
   <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
 </figure>
@@ -155,14 +154,14 @@ const homeCard3 = async () => {
   </div>
 
   <div>
-    <img class="like_btn" src=${loveImg} alt="">
+    <img id=${data[i].id} class="like_btn" src=${loveImg} alt="">
     <p class="font4"><span class="count">5</span> likes </p>
   </div>
 </div>
 
 <div class="home_buttons">
-  <button class="comment_btn font3">Comments</button>
-  <button class="reserve_btn font3">Reservations</button>
+  <button id=${data[i].id} class="comment_btn font3">Comments</button>
+  <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
 </article>`;
 
@@ -227,7 +226,7 @@ const homeCard3 = async () => {
 
 
 window.addEventListener('load', async () => {
-  // await dynamicNav()
+  await dynamicNav()
   await homeCard1()
   await homeCard2()
   await homeCard3()
