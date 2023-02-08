@@ -1,5 +1,4 @@
-let getAllShows = async (baseURL) => {
-    // const baseURL = 'https://api.tvmaze.com/shows'
+let getAllShows = async (baseURL) => { 
     try {
         let result = await fetch(baseURL)
         if (result.ok) {
