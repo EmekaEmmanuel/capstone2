@@ -16,62 +16,49 @@ let homeSection1Tag = document.querySelector('.home_section1')
 let homeSection2Tag = document.querySelector('.home_section2')
 let homeSection3Tag = document.querySelector('.home_section3')
 
-
-
-let activateClickedSpan = (par) => {
+const activateClickedSpan = (par) => {
   par.classList.add("home_active")
   par.classList.remove("home_hidden")
 }
 
-let activateClickedSection = (par) => {
+const activateClickedSection = (par) => {
   par.classList.add("home_active")
   par.classList.remove("home_hidden")
 }
 
-let spanActiveRemove = () => {
+const spanActiveRemove = () => {
   let spanTags = document.querySelectorAll(".home_span")
   spanTags.forEach((span) => {
-    // console.log(span)
     span.classList.remove("home_active")
     span.classList.add("home_hidden")
   })
-  // console.log("removed")
 }
 
-let sectionActiveRemove = () => {
+const sectionActiveRemove = () => {
   let sectionTags = document.querySelectorAll(".grid_container")
-  sectionTags.forEach((section) => {
-    // console.log(section)
+  sectionTags.forEach((section) => { 
     section.classList.remove("home_active")
     section.classList.add("home_hidden")
-  })
-  // console.log("removed")
+  }) 
 }
 
 const dynamicNav = async () => {
-  let data = (await getAllShows(getAllShowsURL)) 
+  let data = (await getAllShows(getAllShowsURL))
   let navtemp = ""
-  for (let i = 0; i < data.length; i += 1) {
-    // let cardData = data.data
-    console.log(data[i])
+  for (let i = 0; i < data.length; i += 1) { 
     navtemp +=
       `
-<li class="font2 nav_item tab_active" data-tab=${i+1}>
-${data[i].title} <span class="home_span ${i===0?"home_active":''} span${i+1} span_active"> ${data[i].total}</span>
-</li>`;
-
+<li class="font2 nav_item tab_active" data-tab=${i + 1}>
+${data[i].title + " "}<span class="home_span ${i === 0 ? "home_active" : ''} span${i + 1} span_active">(${data[i].total})</span>
+</li>`; 
   }
   navTag.innerHTML = navtemp
 }
 
-
 const homeCard1 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[0].data
-  // console.log(data[0].data)
+  let data = (await getAllShows(getAllShowsURL))[0].data 
   let articletemp = ""
-  for (let i = 0; i < data.length; i += 1) {
-    // let cardData = data.data
-    // console.log(data[i])
+  for (let i = 0; i < data.length; i += 1) { 
     articletemp +=
       `<article class="home_article" key=${data[i].id}> 
 <figure>
@@ -100,12 +87,9 @@ const homeCard1 = async () => {
 }
 
 const homeCard2 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[1].realityGenre
-  // console.log(data)
+  let data = (await getAllShows(getAllShowsURL))[1].realityGenre 
   let articletemp = ""
   for (let i = 0; i < data.length; i += 1) { 
-    // console.log(data[i])
-    // console.log(data[i].image.medium)
     articletemp +=
       `<article class="home_article" key=${data[i].id}> 
 <figure>
@@ -127,47 +111,36 @@ const homeCard2 = async () => {
   <button id=${data[i].id} class="comment_btn font3">Comments</button>
   <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
-</article>`;
-
+</article>`; 
   }
-  homeSection2Tag.innerHTML = articletemp
-  // console.log(homeSection2Tag)
-
+  homeSection2Tag.innerHTML = articletemp  
 }
 
 const homeCard3 = async () => {
-  let data = (await getAllShows(getAllShowsURL))[2].animationGenre
-  // console.log(data.data)
+  let data = (await getAllShows(getAllShowsURL))[2].animationGenre 
   let articletemp = ""
-  for (let i = 0; i < data.length; i += 1) {
-    // let cardData = data.data
-    // console.log(data[i])
+  for (let i = 0; i < data.length; i += 1) { 
     articletemp +=
       `<article class="home_article" key=${data[i].id}> 
 <figure>
   <img id=${data[i].id} class="imgz" src=${data[i].image.medium} alt="">
-</figure>
-
+</figure> 
 <div class="home_title">
   <div>
     <h3>${data[i].name}</h3>
-  </div>
-
+  </div> 
   <div>
     <img id=${data[i].id} class="like_btn" src=${loveImg} alt="">
     <p class="font4"><span class="count">5</span> likes </p>
   </div>
-</div>
-
+</div> 
 <div class="home_buttons">
   <button id=${data[i].id} class="comment_btn font3">Comments</button>
   <button id=${data[i].id} class="reserve_btn font3">Reservations</button>
 </div>
-</article>`;
-
+</article>`; 
   }
-  homeSection3Tag.innerHTML = articletemp
-
+  homeSection3Tag.innerHTML = articletemp 
 }
 
 // listBody.addEventListener('click', (e) => {
@@ -187,18 +160,6 @@ const homeCard3 = async () => {
 //     this.updateTaskStatus(clickCheckBoxBtn);
 //   }
 // });
-
-// const displayTabSection = (selectedTab)=>{
-//   let clickedContent = document.querySelector(`.tab_content_${selectedTab.dataset.tab}`)
-//   operationsContents.forEach(operationsContent => {
-//       if (clickedContent !== operationsContent) {
-//           operationsContent.classList.remove('active');
-//           operationsContent.classList.add('hide');
-//       }
-//       clickedContent.classList.add('active');
-//       clickedContent.classList.remove('hide');
-//   })
-// } 
 
 // let likeBtn = document.querySelector('.like_btn')
 // console.log(likeBtn)
@@ -229,28 +190,15 @@ window.addEventListener('load', async () => {
   await dynamicNav()
   await homeCard1()
   await homeCard2()
-  await homeCard3()
-  let tee = await getAllShows(getAllShowsURL)
-  console.log(tee[0])
-  console.log(tee[1])
-  console.log(tee[2])
-  // console.log(tee.datalength)
-
+  await homeCard3()  
 })
 
-navTag.addEventListener("click", async(e) => {
-  // console.log(e.target.closest('.nav_item'))
-  let clicked = e.target.closest('.nav_item')
-  // console.log(clicked)
-  // let tabIndex = clicked.dataset.tab
+navTag.addEventListener("click", async (e) => { 
+  let clicked = e.target.closest('.nav_item') 
   let clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`)
   let clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`)
   spanActiveRemove()
   activateClickedSpan(clickedSpan)
   sectionActiveRemove()
-  activateClickedSection(clickedSection)
-  // await `homeCard${tabIndex}`()
-  // await homeCard3()
-})
-
-// console.log(getAllShows())
+  activateClickedSection(clickedSection) 
+}) 
