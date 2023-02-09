@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1675954132597" clover="3.2.0">
+  <project timestamp="1675954132598" name="All files">
+    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2" elements="4" coveredelements="4" complexity="0" loc="2" ncloc="2" packages="1" files="2" classes="2"/>
+    <file name="dummyAPi.js" path="C:\Users\zewdu\Desktop\FILE\coding\microverse\module_two\capstone2\src\modules\__test__\__mock__\dummyAPi.js">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="2" count="2" type="stmt"/>
+    </file>
+    <file name="dummyReservationAPI.js" path="C:\Users\zewdu\Desktop\FILE\coding\microverse\module_two\capstone2\src\modules\__test__\__mock__\dummyReservationAPI.js">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="1" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>
