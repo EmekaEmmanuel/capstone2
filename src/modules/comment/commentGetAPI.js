@@ -1,8 +1,8 @@
 import { InvolvementAPI, InvolvementID } from './InvolvementAPI.js';
 
-const getReservation = async (id) => {
+const getComment = async (id) => {
   try {
-    const res = await fetch(`${InvolvementAPI + InvolvementID}/reservations?item_id=${id}`);
+    const res = await fetch(`${InvolvementAPI + InvolvementID}/comments?item_id=${id}`);
     if (!res.ok) {
       return false;
     }
@@ -12,4 +12,4 @@ const getReservation = async (id) => {
     return false;
   }
 };
-export default getReservation;
+export default getComment;

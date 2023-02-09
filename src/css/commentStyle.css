@@ -5,13 +5,12 @@
   font-family: "Open Sans", sans-serif;
 }
 
-.reservation {
+.comment{
   display: none;
   flex-direction: column;
-  position: absolute;
-  width: 80%;
+  position: fixed;
+  width: 90%;
   z-index: 1; /* Sit on top */
-  margin-top: -380px;
   border: 2px solid black;
   margin-left: 5%;
   padding: 20px;
@@ -19,27 +18,28 @@
   padding-right: 60px;
   overflow: auto;
   background-color: white;
+  max-height: fit-content;
 }
 
-.reserveimageholder {
+.commentimageholder {
   display: flex;
   flex-direction: row;
   align-self: center;
   width: 100%;
 }
 
-.reserveimage {
+.commentimage {
   display: flex;
   margin-right: 5%;
 }
 
-.reserveimage > img {
+.commentimage > img {
   width: 100%;
   height: auto;
   align-self: center;
 }
 
-.reserveimageholder > button {
+.commentimageholder > button {
   align-self: flex-start;
   font-size: 2.5rem;
   font-weight: bolder;
@@ -49,20 +49,20 @@
   margin-top: -0.5%;
 }
 
-.reservenameholder > h2 {
+.commentnameholder > h2 {
   font-size: 2.5rem;
   margin-bottom: 0.625rem;
   align-self: center;
 }
 
-.reservenameholder {
+.commentnameholder {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-bottom: 0.625rem;
 }
 
-.reservenamedetail {
+.commentnamedetail {
   display: grid;
   grid-template-columns: 50% 50%;
   list-style: none;
@@ -70,48 +70,48 @@
   text-align: left;
 }
 
-.reservedateholder {
+.commentholder {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-bottom: 0.625rem;
 }
 
-.reservedateholder > h2 {
+.commentholder > h2 {
   font-size: 25px;
   margin-bottom: 0.625rem;
   align-self: center;
 }
 
-.reservedate {
+.commentlist{
   list-style: none;
   padding-right: 20px;
 }
 
-.addreservation {
+.addcomment {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.625rem;
 }
 
-.addreservation > h2 {
+.addcomment > h2 {
   font-size: 25px;
   margin-bottom: 0.625rem;
   align-self: center;
 }
 
-.addreservation > input {
+.addcomment > input {
   width: 50%;
   margin-bottom: 0.9375rem;
   border: 2px solid black;
 }
 
-.addreservation > input::placeholder {
+.addcomment > input::placeholder {
   font-weight: 400;
   padding-left: 5px;
 }
 
-.addreservation > button {
+.addcomment > button {
   width: 45%;
   margin-bottom: 0.9375rem;
   border: 2px solid black;

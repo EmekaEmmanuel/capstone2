@@ -1,14 +1,14 @@
 import { InvolvementAPI, InvolvementID } from './InvolvementAPI.js';
 
-const sendReservation = async (userReservation) => {
+const sendComment = async (user_Comment) => {
   try {
-    const res = await fetch(`${InvolvementAPI + InvolvementID}/reservations/`, {
+    const res = await fetch(`${InvolvementAPI + InvolvementID}/comments/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/Json',
         charset: 'utf-8',
       },
-      body: JSON.stringify(userReservation),
+      body: JSON.stringify(user_Comment),
     });
 
     if (!res.ok) {
@@ -20,4 +20,4 @@ const sendReservation = async (userReservation) => {
     return false;
   }
 };
-export default sendReservation;
+export default sendComment;
