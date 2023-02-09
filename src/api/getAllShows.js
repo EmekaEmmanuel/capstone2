@@ -1,4 +1,4 @@
-let getAllShows = async (baseURL) => { 
+let getAllShows = async (baseURL) => {
     try {
         let result = await fetch(baseURL)
         if (result.ok) {
@@ -10,9 +10,7 @@ let getAllShows = async (baseURL) => {
             let animationGenre = data.filter((show) => show.type === "Animation"
             );
             let animationLength = animationGenre.length;
-            console.log([{ title: "Shows", data, datalength }, { title: "Reality", realityGenre, realityLength }, { title: "Animation", animationGenre, animationLength }
-        ])
-            return [{ title: "Shows", data, total:datalength }, { title: "Reality", realityGenre, total:realityLength }, { title: "Animation", animationGenre, total:animationLength }];
+            return [{ title: "Shows", data, total: datalength }, { title: "Reality", realityGenre, total: realityLength }, { title: "Animation", animationGenre, total: animationLength }];
         }
     } catch (error) {
         throw new Error()
