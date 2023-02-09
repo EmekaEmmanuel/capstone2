@@ -1,7 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { totalNumMovies, totalComment } from './__mock__/dummyAPi.js';
 
-
 describe('Total Comments', () => {
   test(' Test1', () => {
     const comments = [
