@@ -1,3 +1,4 @@
 const totalNumMovies = (arr) => arr.length;
+const totalComment = (commentArr) => commentArr.length;
 
-export default totalNumMovies;
+export {totalNumMovies, totalComment};

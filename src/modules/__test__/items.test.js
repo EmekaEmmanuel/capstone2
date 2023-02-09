@@ -1,5 +1,36 @@
 import { describe, expect, test } from '@jest/globals';
-import totalNumMovies from './__mock__/dummyAPi.js';
+import { totalNumMovies, totalComment } from './__mock__/dummyAPi.js';
+
+
+describe('Total Comments', () => {
+  test(' Test1', () => {
+    const comments = [
+      {
+        username: 'clinton',
+        creation_date: '2022-02-01',
+        comment: 'Nice movie',
+      },
+      { comment: 'ahmed', creation_date: '2022-02-01', username: 'very scary' },
+
+      { comment: 'ammar', creation_date: '2022-02-01', username: 'i like it' },
+    ];
+
+    const commentsTotal = totalComment(comments);
+
+    expect(commentsTotal).toBe(3);
+  });
+  test(' Test1', () => {
+    const comments2 = [
+      {
+        username: 'clinton',
+        creation_date: '2022-02-01',
+        comment: 'Nice movie',
+      },
+    ];
+    const commentsTotal2 = totalComment(comments2);
+    expect(commentsTotal2).toBe(1);
+  });
+});
 
 describe('Total shows', () => {
   test(' Test1', () => {
