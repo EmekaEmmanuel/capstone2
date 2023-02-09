@@ -1,6 +1,6 @@
 import './css/home.css';
 import './css/reservationStyle.css';
-import { getAllShowsURL} from './config.js';
+import { getAllShowsURL } from './config.js';
 import getAllShows from './api/getAllShows.js';
 import displayHomeUI from './pageUI/displayHomeUI.js';
 import loveImg from './images/love.png';
@@ -13,7 +13,7 @@ import displayReservation from './modules/reservation/reservationDisplay.js';
 
 const bodyTag = document.querySelector('.home_body');
 
-const HomeUI = () => { 
+const HomeUI = () => {
   bodyTag.innerHTML = reservationUI() + displayHomeUI();
 };
 
@@ -140,7 +140,7 @@ const homeCard2 = async () => {
 };
 
 const homeCard3 = async () => {
-  const data = (await getAllShows(getAllShowsURL))[2].animationGenre; 
+  const data = (await getAllShows(getAllShowsURL))[2].animationGenre;
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
@@ -148,7 +148,7 @@ const homeCard3 = async () => {
         x.like = y.likes;
       }
     });
-  }); 
+  });
   let articletemp = '';
   for (let i = 0; i < data.length; i += 1) {
     articletemp
@@ -196,7 +196,7 @@ window.addEventListener('load', async () => {
   await dynamicNav();
   await rerenderCards();
   await getAllLikes();
-  await Tabselector()
+  await Tabselector();
 });
 
 // added for reservation modal
