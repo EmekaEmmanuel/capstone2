@@ -5,11 +5,14 @@ import getAllShows from './api/getAllShows.js';
 import { displayHomeUI } from './pageUI/displayHomeUI.js';
 import loveImg from './images/love.png';
 import reservationUI from './pageUI/reservationUI.js';
+import reservationCounter from './modules/reservation/reservationCounter.js';
+import sendReservation from './modules/reservation/reservationPostAPI.js';
+import displayReservation from './modules/reservation/reservationDisplay.js';
 
 const bodyTag = document.querySelector('.home_body');
 
 const HomeUI = () => {
-  bodyTag.innerHTML = displayHomeUI() + reservationUI();
+  bodyTag.innerHTML = reservationUI() + displayHomeUI();
 };
 
 HomeUI();
@@ -145,19 +148,108 @@ const homeCard3 = async () => {
   homeSection3Tag.innerHTML = articletemp;
 };
 
+const Tabselector = async (cardActive) => {
+  navTag.addEventListener('click', async (e) => {
+    const clicked = e.target.closest('.nav_item');
+    const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
+    const clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`);
+    spanActiveRemove();
+    activateClickedSpan(clickedSpan);
+    sectionActiveRemove();
+    activateClickedSection(clickedSection);
+  });
+};
 window.addEventListener('load', async () => {
   await dynamicNav();
   await homeCard1();
   await homeCard2();
   await homeCard3();
+  await Tabselector();
+  const reservationCount = document.getElementById('reservationcount');
+  const reservationButton = document.querySelectorAll('.reserve_btn');
+  const reservation = document.getElementById('reservation');
+  const reservationClose = document.getElementById('reservationclose');
+  const userName = document.getElementById('username');
+  const startDate = document.getElementById('startdate');
+  const endDate = document.getElementById('enddate');
+  const reserveButton = document.getElementById('reservebutton');
+  const reservePicture = document.getElementById('reservepicture');
+  const reserveName = document.getElementById('reservename');
+  const reserveLanguage = document.getElementById('reservelanguage');
+  const reserveStatus = document.getElementById('reservestatus');
+  const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
+  const reservetype = document.getElementById('reservetype');
+  const [showData, realityData, animationData] = await getAllShows(getAllShowsURL);
+
+  const isCard1Active = homeSection1Tag.classList.contains('home_active');
+  const isCard2Active = homeSection2Tag.classList.contains('home_active');
+
+  // reservation modal implementation
+  const reservationModal = async () => {
+    reservationButton.forEach((reservebtn) => {
+      reservebtn.addEventListener('click', async (e) => {
+        reservation.style.display = 'block';
+        // fetch data from api
+        // count reservation
+        reservationCounter(e.target.id, reservationCount);
+        // display reservation
+        displayReservation(e.target.id);
+        // reservation event handling
+        // update  information
+        if (isCard1Active) {
+          reservePicture.src = showData.data[e.target.id - 1].image.medium;
+          reserveName.innerHTML = showData.data[e.target.id - 1].name;
+          reserveLanguage.innerHTML = `Language: ${showData.data[e.target.id - 1].language}`;
+          reserveAverageRuntime.innerHTML = `AverageRuntime: ${showData.data[e.target.id - 1].averageRuntime}`;
+          reserveStatus.innerHTML = `Status: ${showData.data[e.target.id - 1].status}`;
+          reservetype.innerHTML = `Type: ${showData.data[e.target.id - 1].type}`;
+        } else if (isCard2Active) {
+          reservePicture.src = realityData.data[e.target.id - 1].image.medium;
+          reserveName.innerHTML = realityData.data[e.target.id - 1].name;
+          reserveLanguage.innerHTML = `Language: ${realityData.data[e.target.id - 1].language}`;
+          reserveAverageRuntime.innerHTML = `AverageRuntime: ${realityData.data[e.target.id - 1].averageRuntime}`;
+          reserveStatus.innerHTML = `Status: ${realityData.data[e.target.id - 1].status}`;
+          reservetype.innerHTML = `Type: ${realityData.data[e.target.id - 1].type}`;
+        } else {
+          reservePicture.src = animationData.data[e.target.id - 1].image.medium;
+          reserveName.innerHTML = animationData.data[e.target.id - 1].name;
+          reserveLanguage.innerHTML = `Language: ${animationData.data[e.target.id - 1].language}`;
+          reserveAverageRuntime.innerHTML = `AverageRuntime: ${animationData.data[e.target.id - 1].averageRuntime}`;
+          reserveStatus.innerHTML = `Status: ${animationData.data[e.target.id - 1].status}`;
+          reservetype.innerHTML = `Type: ${animationData.data[e.target.id - 1].type}`;
+        }
+
+        reserveButton.addEventListener('click', async () => {
+          console.log(e.target.id);
+          if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
+            const reservationdata = {
+              item_id: +e.target.id,
+              username: userName.value.trim(),
+              date_start: startDate.value.trim(),
+              date_end: endDate.value.trim(),
+            };
+            await sendReservation(reservationdata);
+            userName.value = '';
+            startDate.value = '';
+            endDate.value = '';
+            displayReservation(e.target.id);
+            reservationCounter(e.target.id, reservationCount);
+          } else {
+            e.preventDefault();
+          }
+        });
+      });
+    });
+  };
+
+  // close button for reservation window
+  const closeReservationWindow = () => {
+    reservationClose.addEventListener('click', () => {
+      reservation.style.display = 'none';
+    });
+  };
+  reservationModal();
+  closeReservationWindow();
 });
 
-navTag.addEventListener('click', async (e) => {
-  const clicked = e.target.closest('.nav_item');
-  const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
-  const clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`);
-  spanActiveRemove();
-  activateClickedSpan(clickedSpan);
-  sectionActiveRemove();
-  activateClickedSection(clickedSection);
-});
+// added for reservation modal

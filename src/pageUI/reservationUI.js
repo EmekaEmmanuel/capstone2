@@ -3,19 +3,18 @@ const reservationUI = () => ` <section class="reservation" id="reservation">
   <div class="reserveimage">
     <img
       id="reservepicture"
-      src="./images/sample_image.png"
       alt="moviename"
     />
   </div>
   <button id="reservationclose">X</button>
 </section>
 <section class="reservenameholder">
-  <h2 id="reservename">Space 3</h2>
+  <h2 id="reservename"></h2>
   <ul class="reservenamedetail">
-    <li>Fuel :titanium</li>
-    <li>Weight :400</li>
-    <li>Length :100,000</li>
-    <li>Power:100,1000,100</li>
+    <li id="reservetype"> </li>
+    <li id="reservelanguage"> </li>
+    <li id="reservestatus"> </li>
+    <li id='reserveaverageRuntime'> </li>
   </ul>
 </section>
 <section class="reservedateholder">

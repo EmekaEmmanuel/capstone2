@@ -1,7 +1,6 @@
 import getReservation from './reservationGetAPI.js';
 
-const reservationCount = document.getElementById('reservationcount');
-const reservationCounter = async (id) => {
+const reservationCounter = async (id, reservationCount) => {
   const data = await getReservation(id);
   // count reservation
   reservationCount.innerHTML = '';
