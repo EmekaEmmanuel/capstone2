@@ -1,15 +1,20 @@
 import './css/home.css';
-import { getAllShowsURL } from './config.js';
+import './css/reservationStyle.css';
+import { getAllShowsURL} from './config.js';
 import getAllShows from './api/getAllShows.js';
 import displayHomeUI from './pageUI/displayHomeUI.js';
 import loveImg from './images/love.png';
 import getAllLikes from './api/getAllLikes.js';
 import postAllLikes from './api/postAllLikes.js';
+import reservationUI from './pageUI/reservationUI.js';
+import reservationCounter from './modules/reservation/reservationCounter.js';
+import sendReservation from './modules/reservation/reservationPostAPI.js';
+import displayReservation from './modules/reservation/reservationDisplay.js';
 
 const bodyTag = document.querySelector('.home_body');
 
-const HomeUI = () => {
-  bodyTag.innerHTML = displayHomeUI();
+const HomeUI = () => { 
+  bodyTag.innerHTML = reservationUI() + displayHomeUI();
 };
 
 HomeUI();
@@ -135,7 +140,7 @@ const homeCard2 = async () => {
 };
 
 const homeCard3 = async () => {
-  const data = (await getAllShows(getAllShowsURL))[2].animationGenre;
+  const data = (await getAllShows(getAllShowsURL))[2].animationGenre; 
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
@@ -143,7 +148,7 @@ const homeCard3 = async () => {
         x.like = y.likes;
       }
     });
-  });
+  }); 
   let articletemp = '';
   for (let i = 0; i < data.length; i += 1) {
     articletemp
@@ -175,11 +180,81 @@ const rerenderCards = async () => {
   await homeCard3();
 };
 
+const Tabselector = async () => {
+  navTag.addEventListener('click', async (e) => {
+    const clicked = e.target.closest('.nav_item');
+    const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
+    const clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`);
+    spanActiveRemove();
+    activateClickedSpan(clickedSpan);
+    sectionActiveRemove();
+    activateClickedSection(clickedSection);
+  });
+};
+
 window.addEventListener('load', async () => {
   await dynamicNav();
   await rerenderCards();
   await getAllLikes();
+  await Tabselector()
 });
+
+// added for reservation modal
+const reservationModal = async (reservebtnid, selectedObject) => {
+  const reservationCount = document.getElementById('reservationcount');
+  const reservation = document.getElementById('reservation');
+  const userName = document.getElementById('username');
+  const startDate = document.getElementById('startdate');
+  const endDate = document.getElementById('enddate');
+  const reserveButton = document.getElementById('reservebutton');
+  const reservePicture = document.getElementById('reservepicture');
+  const reserveName = document.getElementById('reservename');
+  const reserveLanguage = document.getElementById('reservelanguage');
+  const reserveStatus = document.getElementById('reservestatus');
+  const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
+  const reservetype = document.getElementById('reservetype');
+  reservation.style.display = 'block';
+  // fetch data from api
+  // count reservation
+  reservationCounter(reservebtnid, reservationCount);
+  // display reservation
+  displayReservation(reservebtnid);
+  // reservation event handling
+  // update  information
+
+  reservePicture.src = selectedObject.image.original;
+  reserveName.innerHTML = selectedObject.name;
+  reserveLanguage.innerHTML = `Language: ${selectedObject.language}`;
+  reserveAverageRuntime.innerHTML = `AverageRuntime: ${selectedObject.averageRuntime}`;
+  reserveStatus.innerHTML = `Status: ${selectedObject.status}`;
+  reservetype.innerHTML = `Type: ${selectedObject.type}`;
+  reserveButton.addEventListener('click', async () => {
+    if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
+      const reservationdata = {
+        item_id: +reservebtnid,
+        username: userName.value.trim(),
+        date_start: startDate.value.trim(),
+        date_end: endDate.value.trim(),
+      };
+      await sendReservation(reservationdata);
+      userName.value = '';
+      startDate.value = '';
+      endDate.value = '';
+      displayReservation(reservebtnid);
+      reservationCounter(reservebtnid, reservationCount);
+    } else {
+      reservebtnid.preventDefault();
+    }
+  });
+};
+  // close button for reservation window
+const closeReservationWindow = async () => {
+  const reservationClose = document.getElementById('reservationclose');
+  const reservation = document.getElementById('reservation');
+  reservationClose.addEventListener('click', () => {
+    reservation.style.display = 'none';
+  });
+};
 
 navTag.addEventListener('click', async (e) => {
   const clicked = e.target.closest('.nav_item');
@@ -208,6 +283,16 @@ const displayCardCount = async (countUI, id) => {
 
 bodyTag.addEventListener('click', async (e) => {
   const checkLikeBtn = e.target.classList.contains('like_btn');
+
+  const isReserveContain = e.target.classList.contains('reserve_btn');
+  const reservebtnid = e.target.id;
+  const showData = (await getAllShows(getAllShowsURL))[0];
+  const realityData = (await getAllShows(getAllShowsURL))[1];
+  const animationData = (await getAllShows(getAllShowsURL))[2];
+  const isCard1Active = homeSection1Tag.classList.contains('home_active');
+  const isCard2Active = homeSection2Tag.classList.contains('home_active');
+  const isCard3Active = homeSection3Tag.classList.contains('home_active');
+
   if (checkLikeBtn) {
     const clickedLike = e.target;
     const id = clickedLike.dataset.tab;
@@ -217,5 +302,25 @@ bodyTag.addEventListener('click', async (e) => {
     await getAllLikes();
     await displayCardCount(countUI, id);
     await rerenderCards();
+  }
+
+  if (isReserveContain) {
+    if (isCard1Active) {
+      const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
+    if (isCard2Active) {
+      // eslint-disable-next-line max-len
+      const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
+    if (isCard3Active) {
+      // eslint-disable-next-line max-len
+      const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
   }
 });

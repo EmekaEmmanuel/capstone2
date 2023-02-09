@@ -18,4 +18,4 @@ const getAllShows = async (baseURL) => {
   }
 };
 
-export default getAllShows;
+export default getAllShows; 

@@ -101,7 +101,7 @@
   width: 90%;
   margin: auto;
   padding: 15px 0;
-  box-shadow: 5px 5px #888;
+  box-shadow: 5px 5px #888888;
 }
 
 .home_buttons .reserve_btn {
@@ -154,9 +154,7 @@ footer a {
     display: flex;
     justify-content: space-evenly;
     gap: 40px;
-    align-items: center;
-
-    /* width: 100%; */
+    align-items: center; 
   }
 
   .grid_container {
