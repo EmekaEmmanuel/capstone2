@@ -12,6 +12,8 @@ const HomeUI = () => {
 
 HomeUI()
 
+
+
 let navTag = document.querySelector('.nav_list')
 let homeSection1Tag = document.querySelector('.home_section1')
 let homeSection2Tag = document.querySelector('.home_section2')
@@ -144,12 +146,8 @@ const homeCard3 = async () => {
   homeSection3Tag.innerHTML = articletemp 
 }
 
-window.addEventListener('load', async () => {
-  await dynamicNav()
-  await homeCard1()
-  await homeCard2()
-  await homeCard3()  
-})
+
+
 
 navTag.addEventListener("click", async (e) => { 
   let clicked = e.target.closest('.nav_item') 
@@ -162,13 +160,40 @@ navTag.addEventListener("click", async (e) => {
 }) 
 
 ////////// JUGOSLAV ///////////////////////////
-const commentPopups = async () => {
-  await getData();
-  
-  await display();
+
+
+/////////////////////////////////////
+
+
+window.addEventListener('load', async () => {
+  await dynamicNav()
+  await homeCard1()
+  await homeCard2()
+  await homeCard3()  
+
   const popupContent = document.querySelector('.commentPop');
   const commentBtns = document.querySelectorAll('.comment_btn');
   const greyScreen = document.querySelector('.greyblackScreen');
+ 
+  ///////////Jugoslav/////////////
+  let list = [];
+const getData = async () => {
+  const res = await fetch('https://api.tvmaze.com/shows');
+  const data = await res.json();
+  list = [];
+  for (let i = 10; i < 18; i += 1) {
+    list.push(data[i]);
+  }
+};
+
+const commentPopups = async () => {
+  
+  //await getData();
+ // await display();
+ await homeCard1()
+  await homeCard2()
+  await homeCard3()  
+ 
 
   commentBtns.forEach((btn, id) => {
     btn.addEventListener('click', () => {
@@ -291,5 +316,6 @@ const commentPopups = async () => {
     };
   });
 };
+  commentPopups()
+})
 
-export default commentPopups;
