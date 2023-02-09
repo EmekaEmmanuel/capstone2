@@ -1,5 +1,6 @@
+/* eslint-disable */
 import { describe, expect, test } from '@jest/globals';
-import { totalNumMovies } from './__mock__/dummyAPi'; 
+import { totalNumMovies } from './__mock__/dummyAPi';
 
 describe('Total shows', () => {
   test(' Test1', () => {

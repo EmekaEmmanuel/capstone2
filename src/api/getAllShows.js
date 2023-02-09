@@ -1,20 +1,21 @@
-let getAllShows = async (baseURL) => {
-    try {
-        let result = await fetch(baseURL)
-        if (result.ok) {
-            let data = await result.json()
-            let datalength = data.length
-            let realityGenre = data.filter((show) => show.type === "Reality"
-            );
-            let realityLength = realityGenre.length;
-            let animationGenre = data.filter((show) => show.type === "Animation"
-            );
-            let animationLength = animationGenre.length;
-            return [{ title: "Shows", data, total: datalength }, { title: "Reality", realityGenre, total: realityLength }, { title: "Animation", animationGenre, total: animationLength }];
-        }
-    } catch (error) {
-        throw new Error()
+/* eslint-disable */
+ 
+const getAllShows = async (baseURL) => {
+  
+  try {
+    const result = await fetch(baseURL);
+    if (result.ok) {
+      const data = await result.json();
+      const datalength = data.length;
+      const realityGenre = data.filter((show) => show.type === 'Reality');
+      const realityLength = realityGenre.length;
+      const animationGenre = data.filter((show) => show.type === 'Animation');
+      const animationLength = animationGenre.length;
+      return [{ title: 'Shows', data, total: datalength }, { title: 'Reality', realityGenre, total: realityLength }, { title: 'Animation', animationGenre, total: animationLength }];
     }
-}
+  } catch (error) {
+    throw new Error();
+  }
+};
 
-export default getAllShows
+export default getAllShows;
