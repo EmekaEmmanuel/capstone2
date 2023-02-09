@@ -3,8 +3,8 @@ import { getAllShowsURL } from './config.js';
 import getAllShows from './api/getAllShows.js';
 import { displayHomeUI } from './pageUI/displayHomeUI.js'
 import loveImg from './images/love.png'
-import getAllLikes from './modules/likeUI/getAllLikes.js'; 
-import postAllLikes from './modules/likeUI/postAllLikes.js'; 
+import getAllLikes from './api/getAllLikes.js'; 
+import postAllLikes from './api/postAllLikes.js'; 
 
 let bodyTag = document.querySelector('.home_body')
 

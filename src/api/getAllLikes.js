@@ -1,4 +1,4 @@
-import { involvementAPI, apiID } from "../../config.js";
+import { involvementAPI, apiID } from "../config.js";
 
 const getAllLikes = async () => {
     try {
