@@ -1,8 +1,8 @@
 import './css/home.css';
 import './css/reservationStyle.css';
-import { getAllShowsURL } from './config.js';
+import getAllShowsURL from './config.js';
 import getAllShows from './api/getAllShows.js';
-import { displayHomeUI } from './pageUI/displayHomeUI.js';
+import displayHomeUI from './pageUI/displayHomeUI.js';
 import loveImg from './images/love.png';
 import reservationUI from './pageUI/reservationUI.js';
 import reservationCounter from './modules/reservation/reservationCounter.js';
@@ -148,7 +148,7 @@ const homeCard3 = async () => {
   homeSection3Tag.innerHTML = articletemp;
 };
 
-const Tabselector = async (cardActive) => {
+const Tabselector = async () => {
   navTag.addEventListener('click', async (e) => {
     const clicked = e.target.closest('.nav_item');
     const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
@@ -165,10 +165,12 @@ window.addEventListener('load', async () => {
   await homeCard2();
   await homeCard3();
   await Tabselector();
+});
+
+// added for reservation modal
+const reservationModal = async (reservebtnid, selectedObject) => {
   const reservationCount = document.getElementById('reservationcount');
-  const reservationButton = document.querySelectorAll('.reserve_btn');
   const reservation = document.getElementById('reservation');
-  const reservationClose = document.getElementById('reservationclose');
   const userName = document.getElementById('username');
   const startDate = document.getElementById('startdate');
   const endDate = document.getElementById('enddate');
@@ -179,77 +181,89 @@ window.addEventListener('load', async () => {
   const reserveStatus = document.getElementById('reservestatus');
   const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
   const reservetype = document.getElementById('reservetype');
-  const [showData, realityData, animationData] = await getAllShows(getAllShowsURL);
-
   const isCard1Active = homeSection1Tag.classList.contains('home_active');
   const isCard2Active = homeSection2Tag.classList.contains('home_active');
+  reservation.style.display = 'block';
+  // fetch data from api
+  // count reservation
+  reservationCounter(reservebtnid, reservationCount);
+  // display reservation
+  displayReservation(reservebtnid);
+  // reservation event handling
+  // update  information
 
-  // reservation modal implementation
-  const reservationModal = async () => {
-    reservationButton.forEach((reservebtn) => {
-      reservebtn.addEventListener('click', async (e) => {
-        reservation.style.display = 'block';
-        // fetch data from api
-        // count reservation
-        reservationCounter(e.target.id, reservationCount);
-        // display reservation
-        displayReservation(e.target.id);
-        // reservation event handling
-        // update  information
-        if (isCard1Active) {
-          reservePicture.src = showData.data[e.target.id - 1].image.medium;
-          reserveName.innerHTML = showData.data[e.target.id - 1].name;
-          reserveLanguage.innerHTML = `Language: ${showData.data[e.target.id - 1].language}`;
-          reserveAverageRuntime.innerHTML = `AverageRuntime: ${showData.data[e.target.id - 1].averageRuntime}`;
-          reserveStatus.innerHTML = `Status: ${showData.data[e.target.id - 1].status}`;
-          reservetype.innerHTML = `Type: ${showData.data[e.target.id - 1].type}`;
-        } else if (isCard2Active) {
-          reservePicture.src = realityData.data[e.target.id - 1].image.medium;
-          reserveName.innerHTML = realityData.data[e.target.id - 1].name;
-          reserveLanguage.innerHTML = `Language: ${realityData.data[e.target.id - 1].language}`;
-          reserveAverageRuntime.innerHTML = `AverageRuntime: ${realityData.data[e.target.id - 1].averageRuntime}`;
-          reserveStatus.innerHTML = `Status: ${realityData.data[e.target.id - 1].status}`;
-          reservetype.innerHTML = `Type: ${realityData.data[e.target.id - 1].type}`;
-        } else {
-          reservePicture.src = animationData.data[e.target.id - 1].image.medium;
-          reserveName.innerHTML = animationData.data[e.target.id - 1].name;
-          reserveLanguage.innerHTML = `Language: ${animationData.data[e.target.id - 1].language}`;
-          reserveAverageRuntime.innerHTML = `AverageRuntime: ${animationData.data[e.target.id - 1].averageRuntime}`;
-          reserveStatus.innerHTML = `Status: ${animationData.data[e.target.id - 1].status}`;
-          reservetype.innerHTML = `Type: ${animationData.data[e.target.id - 1].type}`;
-        }
+  reservePicture.src = selectedObject.image.medium;
+  reserveName.innerHTML = selectedObject.name;
+  reserveLanguage.innerHTML = `Language: ${selectedObject.language}`;
+  reserveAverageRuntime.innerHTML = `AverageRuntime: ${selectedObject.averageRuntime}`;
+  reserveStatus.innerHTML = `Status: ${selectedObject.status}`;
+  reservetype.innerHTML = `Type: ${selectedObject.type}`;
+  // else if (isCard2Active) {
+  //   reservePicture.src = realityData.data[reservebtnid].image.medium;
+  //   reserveName.innerHTML = realityData.data[reservebtnid].name;
+  //   reserveLanguage.innerHTML = `Language: ${realityData.data[reservebtnid].language}`;
+  //   reserveAverageRuntime.innerHTML = `AverageRuntime: ${realityData.data[reservebtnid].averageRuntime}`;
+  //   reserveStatus.innerHTML = `Status: ${realityData.data[reservebtnid].status}`;
+  //   reservetype.innerHTML = `Type: ${realityData.data[reservebtnid].type}`;
+  // } else {
+  //   reservePicture.src = animationData.data[reservebtnid].image.medium;
+  //   reserveName.innerHTML = animationData.data[reservebtnid].name;
+  //   reserveLanguage.innerHTML = `Language: ${animationData.data[reservebtnid].language}`;
+  //   reserveAverageRuntime.innerHTML = `AverageRuntime: ${animationData.data[reservebtnid].averageRuntime}`;
+  //   reserveStatus.innerHTML = `Status: ${animationData.data[reservebtnid].status}`;
+  //   reservetype.innerHTML = `Type: ${animationData.data[reservebtnid].type}`;
+  // }
 
-        reserveButton.addEventListener('click', async () => {
-          console.log(e.target.id);
-          if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
-            const reservationdata = {
-              item_id: +e.target.id,
-              username: userName.value.trim(),
-              date_start: startDate.value.trim(),
-              date_end: endDate.value.trim(),
-            };
-            await sendReservation(reservationdata);
-            userName.value = '';
-            startDate.value = '';
-            endDate.value = '';
-            displayReservation(e.target.id);
-            reservationCounter(e.target.id, reservationCount);
-          } else {
-            e.preventDefault();
-          }
-        });
-      });
-    });
-  };
-
+  reserveButton.addEventListener('click', async () => {
+    if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
+      const reservationdata = {
+        item_id: +reservebtnid,
+        username: userName.value.trim(),
+        date_start: startDate.value.trim(),
+        date_end: endDate.value.trim(),
+      };
+      await sendReservation(reservationdata);
+      userName.value = '';
+      startDate.value = '';
+      endDate.value = '';
+      displayReservation(reservebtnid);
+      reservationCounter(reservebtnid, reservationCount);
+    } else {
+      reservebtnid.preventDefault();
+    }
+  });
+};
   // close button for reservation window
-  const closeReservationWindow = () => {
-    reservationClose.addEventListener('click', () => {
-      reservation.style.display = 'none';
-    });
-  };
-  reservationModal();
-  closeReservationWindow();
-});
+const closeReservationWindow = async () => {
+  const reservationClose = document.getElementById('reservationclose');
+  const reservation = document.getElementById('reservation');
+  reservationClose.addEventListener('click', () => {
+    reservation.style.display = 'none';
+  });
+};
 
-// added for reservation modal
+bodyTag.addEventListener('click', async (e) => {
+  const isReserveContain = e.target.classList.contains('reserve_btn');
+  const reservebtnid = e.target.id;
+  const showData = (await getAllShows(getAllShowsURL))[0];
+  const realityData = (await getAllShows(getAllShowsURL))[1];
+  const animationData = (await getAllShows(getAllShowsURL))[2];
+  const isCard1Active = homeSection1Tag.classList.contains('home_active');
+  const isCard2Active = homeSection2Tag.classList.contains('home_active');
+  const isCard3Active = homeSection3Tag.classList.contains('home_active');
+  if (isReserveContain && isCard1Active) {
+    const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
+    await reservationModal(reservebtnid, selectedObject);
+    await closeReservationWindow();
+  } if (isReserveContain && isCard2Active) {
+    // eslint-disable-next-line max-len
+    const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
+    await reservationModal(reservebtnid, selectedObject);
+    await closeReservationWindow();
+  } if (isReserveContain && isCard3Active) {
+    // eslint-disable-next-line max-len
+    const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
+    await reservationModal(reservebtnid, selectedObject);
+    await closeReservationWindow();
+  }
+});
