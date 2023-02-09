@@ -181,8 +181,6 @@ const reservationModal = async (reservebtnid, selectedObject) => {
   const reserveStatus = document.getElementById('reservestatus');
   const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
   const reservetype = document.getElementById('reservetype');
-  const isCard1Active = homeSection1Tag.classList.contains('home_active');
-  const isCard2Active = homeSection2Tag.classList.contains('home_active');
   reservation.style.display = 'block';
   // fetch data from api
   // count reservation
@@ -192,28 +190,12 @@ const reservationModal = async (reservebtnid, selectedObject) => {
   // reservation event handling
   // update  information
 
-  reservePicture.src = selectedObject.image.medium;
+  reservePicture.src = selectedObject.image.original;
   reserveName.innerHTML = selectedObject.name;
   reserveLanguage.innerHTML = `Language: ${selectedObject.language}`;
   reserveAverageRuntime.innerHTML = `AverageRuntime: ${selectedObject.averageRuntime}`;
   reserveStatus.innerHTML = `Status: ${selectedObject.status}`;
   reservetype.innerHTML = `Type: ${selectedObject.type}`;
-  // else if (isCard2Active) {
-  //   reservePicture.src = realityData.data[reservebtnid].image.medium;
-  //   reserveName.innerHTML = realityData.data[reservebtnid].name;
-  //   reserveLanguage.innerHTML = `Language: ${realityData.data[reservebtnid].language}`;
-  //   reserveAverageRuntime.innerHTML = `AverageRuntime: ${realityData.data[reservebtnid].averageRuntime}`;
-  //   reserveStatus.innerHTML = `Status: ${realityData.data[reservebtnid].status}`;
-  //   reservetype.innerHTML = `Type: ${realityData.data[reservebtnid].type}`;
-  // } else {
-  //   reservePicture.src = animationData.data[reservebtnid].image.medium;
-  //   reserveName.innerHTML = animationData.data[reservebtnid].name;
-  //   reserveLanguage.innerHTML = `Language: ${animationData.data[reservebtnid].language}`;
-  //   reserveAverageRuntime.innerHTML = `AverageRuntime: ${animationData.data[reservebtnid].averageRuntime}`;
-  //   reserveStatus.innerHTML = `Status: ${animationData.data[reservebtnid].status}`;
-  //   reservetype.innerHTML = `Type: ${animationData.data[reservebtnid].type}`;
-  // }
-
   reserveButton.addEventListener('click', async () => {
     if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
       const reservationdata = {
@@ -251,19 +233,23 @@ bodyTag.addEventListener('click', async (e) => {
   const isCard1Active = homeSection1Tag.classList.contains('home_active');
   const isCard2Active = homeSection2Tag.classList.contains('home_active');
   const isCard3Active = homeSection3Tag.classList.contains('home_active');
-  if (isReserveContain && isCard1Active) {
-    const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
-    await reservationModal(reservebtnid, selectedObject);
-    await closeReservationWindow();
-  } if (isReserveContain && isCard2Active) {
-    // eslint-disable-next-line max-len
-    const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
-    await reservationModal(reservebtnid, selectedObject);
-    await closeReservationWindow();
-  } if (isReserveContain && isCard3Active) {
-    // eslint-disable-next-line max-len
-    const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
-    await reservationModal(reservebtnid, selectedObject);
-    await closeReservationWindow();
+  if (isReserveContain) {
+    if (isCard1Active) {
+      const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
+    if (isCard2Active) {
+      // eslint-disable-next-line max-len
+      const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
+    if (isCard3Active) {
+      // eslint-disable-next-line max-len
+      const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, selectedObject);
+      await closeReservationWindow();
+    }
   }
 });
