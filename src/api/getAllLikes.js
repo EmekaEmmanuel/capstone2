@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { involvementAPI, apiID } from '../config.js';
 
 const getAllLikes = async () => {

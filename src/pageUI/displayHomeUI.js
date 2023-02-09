@@ -34,4 +34,4 @@ const displayHomeUI = () => `
 </footer>
 `;
 
-export { displayHomeUI };
+export default displayHomeUI;

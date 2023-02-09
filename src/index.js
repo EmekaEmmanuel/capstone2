@@ -1,8 +1,7 @@
-/* eslint-disable */
 import './css/home.css';
 import { getAllShowsURL } from './config.js';
 import getAllShows from './api/getAllShows.js';
-import { displayHomeUI } from './pageUI/displayHomeUI.js';
+import displayHomeUI from './pageUI/displayHomeUI.js';
 import loveImg from './images/love.png';
 import getAllLikes from './api/getAllLikes.js';
 import postAllLikes from './api/postAllLikes.js';
@@ -64,7 +63,7 @@ const homeCard1 = async () => {
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
-      if (y.item_id == x.id) {
+      if (parseFloat(y.item_id) === x.id) {
         x.like = y.likes;
       }
     });
@@ -102,7 +101,7 @@ const homeCard2 = async () => {
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
-      if (y.item_id == x.id) {
+      if (parseFloat(y.item_id) === x.id) {
         x.like = y.likes;
       }
     });
@@ -140,7 +139,7 @@ const homeCard3 = async () => {
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
-      if (y.item_id == x.id) {
+      if (parseFloat(y.item_id) === x.id) {
         x.like = y.likes;
       }
     });
@@ -192,6 +191,21 @@ navTag.addEventListener('click', async (e) => {
   activateClickedSection(clickedSection);
 });
 
+const postLike = async (countObj) => {
+  await postAllLikes(countObj);
+};
+
+const displayCardCount = async (countUI, id) => {
+  const likeArray = await getAllLikes();
+  likeArray.filter((item) => {
+    if (item.item_id === id) {
+      const { likes } = item;
+      countUI.innerHTML = likes;
+    }
+    return countUI;
+  });
+};
+
 bodyTag.addEventListener('click', async (e) => {
   const checkLikeBtn = e.target.classList.contains('like_btn');
   if (checkLikeBtn) {
@@ -205,17 +219,3 @@ bodyTag.addEventListener('click', async (e) => {
     await rerenderCards();
   }
 });
-
-const postLike = async (countObj) => {
-  await postAllLikes(countObj);
-};
-
-const displayCardCount = async (countUI, id) => {
-  const likeArray = await getAllLikes();
-  likeArray.filter((item) => {
-    if (item.item_id === id) {
-      const { likes } = item;
-      return countUI.innerHTML = likes;
-    }
-  });
-};
