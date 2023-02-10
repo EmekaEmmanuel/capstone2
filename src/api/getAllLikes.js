@@ -2,10 +2,12 @@ import { involvementAPI, apiID } from '../config.js';
 
 const getAllLikes = async () => {
   try {
-    const result = await (await fetch(`${involvementAPI}${apiID}/likes`)).json();
-    return result;
+    const result = await (await fetch(`${involvementAPI}${apiID}/likes`))
+    if (!result.ok) throw new Error(`Error fetching item data: ${response.status}`);
+    const data = await result.json();
+    return data;
   } catch (error) {
-    return error;
+    throw new Error
   }
 };
 
