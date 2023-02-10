@@ -10,7 +10,7 @@ const postAllLikes = async (par) => {
       },
       body: JSON.stringify(par),
     });
-    if (!result.ok) throw new Error(`Error fetching item data: ${result.status}`); 
+    if (!result.ok) throw new Error(`Error fetching item data: ${result.status}`);
     const data = await result.json();
     return data;
   } catch (error) {

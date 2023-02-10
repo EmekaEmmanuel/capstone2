@@ -14,7 +14,7 @@ import displayReservation from './modules/reservation/reservationDisplay.js';
 const bodyTag = document.querySelector('.home_body');
 
 const HomeUI = () => {
-  bodyTag.innerHTML = "";
+  bodyTag.innerHTML = '';
   bodyTag.innerHTML = reservationUI() + displayHomeUI();
 };
 
