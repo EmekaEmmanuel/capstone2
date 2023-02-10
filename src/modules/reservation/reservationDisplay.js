@@ -2,6 +2,7 @@ import getReservation from './reservationGetAPI.js';
 
 const displayReservation = async (id) => {
   const res = await getReservation(id);
+  console.log(res)
   const reservedate = document.querySelector('.reservedate');
   reservedate.innerHTML = '';
   if (res.length === undefined) {

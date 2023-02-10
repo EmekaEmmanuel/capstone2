@@ -253,7 +253,7 @@ const reservationModal = async (reservebtnid, selectedObject) => {
     }
   });
 };
-  // close button for reservation window
+// close button for reservation window
 const closeReservationWindow = async () => {
   const reservationClose = document.getElementById('reservationclose');
   const reservation = document.getElementById('reservation');
@@ -396,6 +396,8 @@ bodyTag.addEventListener('click', async (e) => {
   }
 
   if (isCommentContain) {
+    console.log(isCommentContain)
+
     if (isCardActive1) {
       // eslint-disable-next-line max-len
       const selectedcommentObject = showcommentData.data.find((item) => item.id === Number(commentbtnid));
@@ -410,7 +412,7 @@ bodyTag.addEventListener('click', async (e) => {
       await closeCommentWindow();
     }
     if (isCardActive3) {
-    // eslint-disable-next-line max-len
+      // eslint-disable-next-line max-len
       const selectedcommentObject = animationcommentData.animationGenre.find((item) => item.id === Number(commentbtnid));
       await commentModal(commentbtnid, selectedcommentObject);
       await closeCommentWindow();
