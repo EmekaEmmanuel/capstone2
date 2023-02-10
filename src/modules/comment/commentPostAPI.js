@@ -1,6 +1,6 @@
 import { InvolvementAPI, InvolvementID } from './InvolvementAPI.js';
 
-const sendComment = async (user_Comment) => {
+const sendComment = async (userComment) => {
   try {
     const res = await fetch(`${InvolvementAPI + InvolvementID}/comments/`, {
       method: 'POST',
@@ -8,7 +8,7 @@ const sendComment = async (user_Comment) => {
         'Content-Type': 'application/Json',
         charset: 'utf-8',
       },
-      body: JSON.stringify(user_Comment),
+      body: JSON.stringify(userComment),
     });
 
     if (!res.ok) {

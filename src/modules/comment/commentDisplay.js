@@ -7,7 +7,7 @@ const displayComment = async (id) => {
   if (res.length === undefined) {
     return false;
   }
-  res.forEach((comment) => { 
+  res.forEach((comment) => {
     commentlist.innerHTML += `<li>
      ${comment.creation_date} - ${comment.username} - ${comment.comment}
    </li>`;
