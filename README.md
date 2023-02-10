@@ -56,6 +56,33 @@ After you're finished please remove all the comments and instructions!
 
 > This project is a group capstone project that uses the API and best practices of HTML5, CSS3, and JavaScript in addition to test functions. It is a part of the Microverse in the JavaScript and networking module.
 
+<div align="center">
+
+  <img src="./src/images/javascriptcapstonehome.png" alt="microverse_logo" width="140"  height="auto" />
+  <br/>
+
+  <h3><b>MHome page</b></h3>
+
+</div>
+
+<div align="center">
+
+  <img src="./src/images/javascriptcapstonecomment.png" alt="microverse_logo" width="140"  height="auto" />
+  <br/>
+
+  <h3><b>Comment Popup</b></h3>
+
+</div>
+
+<div align="center">
+
+  <img src="./src/images/javascriptcapstonereservation.png" alt="microverse_logo" width="140"  height="auto" />
+  <br/>
+
+  <h3><b>Reservation Popup</b></h3>
+
+</div>
+
 ## 🛠 Built With <a name="built-with"> </a>
 
 > HTML 5 , css3, javascript ES6, NPM ,babel, webpack and jest.
@@ -68,13 +95,24 @@ After you're finished please remove all the comments and instructions!
 
 ### Key Features <a name="key-features"></a>
 
+- **[Tells you about about the CapFlix application.]**
+- **[Fetch data from TVMAZE and Involvement API.]**
+- **[To display all movie cards.]**
+- **[To display all likes, comment and reservation attached to a movie.]**
+- **[Webpack and ES6 modules.]**
+- **[ Get the total length of movies, likes, comments and reservation]**
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p><!-- LIVE DEMO -->
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
->
+- [Live Demo Link](https://emekaemmanuel.github.io/capstone2) 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Project Presentation <a name="project-presentation"></a>
+
+- [Project Presentation video link](https://) 
 
 <!-- GETTING STARTED -->
 
@@ -172,3 +210,5 @@ Feel free to check the [issues page](https://github.com/EmekaEmmanuel/capstone2/
 This project is [MIT](./LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+(../../issues/https://github.com/EmekaEmmanuel/capstone2/issues).

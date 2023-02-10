@@ -5,7 +5,7 @@
   font-family: "Open Sans", sans-serif;
 }
 
-.comment{
+.comment {
   display: none;
   flex-direction: column;
   position: fixed;
@@ -83,7 +83,7 @@
   align-self: center;
 }
 
-.commentlist{
+.commentlist {
   list-style: none;
   padding-right: 20px;
 }
@@ -105,9 +105,10 @@
   margin-bottom: 0.9375rem;
   border: 2px solid black;
 }
+
 .addcomment > textarea {
   width: 50%;
-  height:100px;;
+  height: 100px;
   margin-bottom: 0.9375rem;
   border: 2px solid black;
 }
