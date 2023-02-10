@@ -1,8 +1,8 @@
-import { InvolvementAPI, InvolvementID } from './InvolvementAPI.js';
+import { involvementAPI, involvementID } from '../../config.js';
 
 const sendComment = async (userComment) => {
   try {
-    const res = await fetch(`${InvolvementAPI + InvolvementID}/comments/`, {
+    const res = await fetch(`${involvementAPI + involvementID}/comments/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/Json',

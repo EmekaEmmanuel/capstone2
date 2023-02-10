@@ -1,8 +1,8 @@
-import { InvolvementAPI, InvolvementID } from './InvolvementAPI.js';
+import { involvementAPI, involvementID } from '../../config.js';
 
 const sendReservation = async (userReservation) => {
   try {
-    const res = await fetch(`${InvolvementAPI + InvolvementID}/reservations/`, {
+    const res = await fetch(`${involvementAPI + involvementID}/reservations/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/Json',

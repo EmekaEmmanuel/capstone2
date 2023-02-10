@@ -29,6 +29,13 @@ describe('Total Comments', () => {
     const commentsTotal2 = totalComment(comments2);
     expect(commentsTotal2).toBe(1);
   });
+  test(' Test1', () => {
+    const comments = [];
+
+    const commentsTotal = totalComment(comments);
+
+    expect(commentsTotal).toBe(0);
+  });
 });
 
 describe('Total shows', () => {
@@ -58,5 +65,11 @@ describe('Total shows', () => {
     const shows2 = totalNumMovies(totalShows2);
 
     expect(shows2).toBe(1);
+  });
+  test(' Test1', () => {
+    const totalShows = [];
+    const shows = totalNumMovies(totalShows);
+
+    expect(shows).toBe(0);
   });
 });

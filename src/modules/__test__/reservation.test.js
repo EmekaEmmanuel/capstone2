@@ -32,4 +32,10 @@ describe('Total Reservation', () => {
 
     expect(reservations).toBe(1);
   });
+  test('Test2', () => {
+    const Totalreservation2 = [];
+    const reservations = ReservationTotalCount(Totalreservation2);
+
+    expect(reservations).toBe(0);
+  });
 });
