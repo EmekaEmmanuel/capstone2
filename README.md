@@ -61,7 +61,7 @@ After you're finished please remove all the comments and instructions!
   <img src="./src/images/javascriptcapstonehome.png" alt="microverse_logo" width="140"  height="auto" />
   <br/>
 
-  <h3><b>MHome page</b></h3>
+  <h3><b>Home page</b></h3>
 
 </div>
 
