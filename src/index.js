@@ -195,7 +195,7 @@ const commentModal = async (commentbtnid, selectedcommentObject) => {
   // reservation event handling
   // update  information
 
-  commentPicture.src = selectedcommentObject.image.medium;
+  commentPicture.src = selectedcommentObject.image.original;
   commentName.innerHTML = selectedcommentObject.name;
   commentLanguage.innerHTML = `Language: ${selectedcommentObject.language}`;
   commentAverageRuntime.innerHTML = `AverageRuntime: ${selectedcommentObject.averageRuntime}`;
@@ -253,20 +253,27 @@ bodyTag.addEventListener('click', async (e) => {
   const isCardActive1 = homeSection1Tag.classList.contains('home_active');
   const isCardActive2 = homeSection2Tag.classList.contains('home_active');
   const isCardActive3 = homeSection3Tag.classList.contains('home_active');
-  if (isCommentContain && isCardActive1) {
+
+  if (isCommentContain){
+    if(isCardActive1){
     const selectedcommentObject = showcommentData.data.find((item) => item.id === Number(commentbtnid));
     await commentModal(commentbtnid, selectedcommentObject);
     await closeCommentWindow();
-  } if (isCommentContain && isCardActive2) {
+    }
+  
+
+  if(isCardActive2){
+ // eslint-disable-next-line max-len
+ const selectedcommentObject =realitycommentData.realityGenre.find((item) => item.id === Number(commentbtnid));
+ await commentModal(commentbtnid, selectedcommentObject);
+ await closeCommentWindow();
+  }
+  if(isCardActive3){
     // eslint-disable-next-line max-len
     const selectedcommentObject =realitycommentData.realityGenre.find((item) => item.id === Number(commentbtnid));
     await commentModal(commentbtnid, selectedcommentObject);
     await closeCommentWindow();
-  } if (isCommentContain && isCardActive3) {
-    // eslint-disable-next-line max-len
-    const selectedcommentObject = animationcommentData.animationGenre.find((item) => item.id === Number(commentbtnid));
-    await commentModal(commentbtnid, selectedcommentObject);
-    await closeCommentWindow();
+     }
   }
 });
 
