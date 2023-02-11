@@ -204,6 +204,7 @@ window.addEventListener('load', async () => {
   await getAllLikes();
   await Tabselector();
 });
+// close button for reservation window
 
 // added for reservation modal
 const reservationModal = async (reservebtnid, selectedObject) => {
@@ -220,11 +221,8 @@ const reservationModal = async (reservebtnid, selectedObject) => {
   const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
   const reservetype = document.getElementById('reservetype');
   reservation.style.display = 'block';
-  // fetch data from api
-  // count reservation
-  reservationCounter(reservebtnid, reservationCount);
+
   // display reservation
-  displayReservation(reservebtnid);
   // reservation event handling
   // update  information
 
@@ -234,34 +232,33 @@ const reservationModal = async (reservebtnid, selectedObject) => {
   reserveAverageRuntime.innerHTML = `AverageRuntime: ${selectedObject.averageRuntime}`;
   reserveStatus.innerHTML = `Status: ${selectedObject.status}`;
   reservetype.innerHTML = `Type: ${selectedObject.type}`;
-  reserveButton.addEventListener('click', async () => {
+
+  reserveButton.addEventListener('click', async (e) => {
     if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
-      const reservationdata = {
+      await sendReservation({
         item_id: +reservebtnid,
         username: userName.value.trim(),
         date_start: startDate.value.trim(),
         date_end: endDate.value.trim(),
-      };
-      await sendReservation(reservationdata);
+      });
       userName.value = '';
       startDate.value = '';
       endDate.value = '';
-      displayReservation(reservebtnid);
-      reservationCounter(reservebtnid, reservationCount);
+      await displayReservation(reservebtnid);
+      await reservationCounter(reservebtnid, reservationCount);
     } else {
-      reservebtnid.preventDefault();
+      e.preventDefault();
     }
-  });
+  }, { once: false });
 };
-// close button for reservation window
-const closeReservationWindow = async () => {
+const closeReservationWindow = () => {
   const reservationClose = document.getElementById('reservationclose');
   const reservation = document.getElementById('reservation');
   reservationClose.addEventListener('click', () => {
+    window.location.reload();
     reservation.style.display = 'none';
   });
 };
-
 navTag.addEventListener('click', async (e) => {
   const clicked = e.target.closest('.nav_item');
   const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
@@ -290,10 +287,8 @@ const displayCardCount = async (countUI, id) => {
 const commentModal = async (commentbtnid, selectedcommentObject) => {
   const commentCount = document.getElementById('commentcount');
   const comment = document.getElementById('comment');
-
   const userNamecomment = document.getElementById('usernamecomment');
   const userComment = document.getElementById('usercomment');
-
   const commentButton = document.getElementById('commentbutton');
   const commentPicture = document.getElementById('commentpicture');
   const commentName = document.getElementById('commentname');
@@ -302,11 +297,7 @@ const commentModal = async (commentbtnid, selectedcommentObject) => {
   const commentAverageRuntime = document.getElementById('commentaverageRuntime');
   const commenttype = document.getElementById('commenttype');
   comment.style.display = 'block';
-  // fetch data from api
-  // count reservation
-  commentCounter(commentbtnid, commentCount);
-  // display reservation
-  displayComment(commentbtnid);
+
   // reservation event handling
   // update  information
 
@@ -318,27 +309,28 @@ const commentModal = async (commentbtnid, selectedcommentObject) => {
   commenttype.innerHTML = `Type: ${selectedcommentObject.type}`;
   commentButton.addEventListener('click', async () => {
     if (userNamecomment.value.trim() !== '' && userComment.value.trim() !== '') {
-      const commentdata = {
+      await sendComment({
         item_id: +commentbtnid,
         username: userNamecomment.value.trim(),
         comment: userComment.value.trim(),
 
-      };
-      await sendComment(commentdata);
+      });
       userNamecomment.value = '';
       userComment.value = '';
-      displayComment(commentbtnid);
-      commentCounter(commentbtnid, commentCount);
+
+      await displayComment(commentbtnid);
+      await commentCounter(commentbtnid, commentCount);
     } else {
       commentbtnid.preventDefault();
     }
-  });
+  }, { once: false });
 };
 
-const closeCommentWindow = async () => {
+const closeCommentWindow = () => {
   const commentClose = document.getElementById('commentclose');
   const comment = document.getElementById('comment');
   commentClose.addEventListener('click', () => {
+    window.location.reload();
     comment.style.display = 'none';
   });
 };
@@ -348,18 +340,15 @@ bodyTag.addEventListener('click', async (e) => {
 
   const isReserveContain = e.target.classList.contains('reserve_btn');
   const reservebtnid = e.target.id;
-  const showData = (await getAllShows(getAllShowsURL))[0];
-  const realityData = (await getAllShows(getAllShowsURL))[1];
-  const animationData = (await getAllShows(getAllShowsURL))[2];
+  const show = (await getAllShows(getAllShowsURL))[0];
+  const reality = (await getAllShows(getAllShowsURL))[1];
+  const animation = (await getAllShows(getAllShowsURL))[2];
   const isCard1Active = homeSection1Tag.classList.contains('home_active');
   const isCard2Active = homeSection2Tag.classList.contains('home_active');
   const isCard3Active = homeSection3Tag.classList.contains('home_active');
 
   const isCommentContain = e.target.classList.contains('comment_btn');
   const commentbtnid = e.target.id;
-  const showcommentData = (await getAllShows(getAllShowsURL))[0];
-  const realitycommentData = (await getAllShows(getAllShowsURL))[1];
-  const animationcommentData = (await getAllShows(getAllShowsURL))[2];
   const isCardActive1 = homeSection1Tag.classList.contains('home_active');
   const isCardActive2 = homeSection2Tag.classList.contains('home_active');
   const isCardActive3 = homeSection3Tag.classList.contains('home_active');
@@ -376,46 +365,56 @@ bodyTag.addEventListener('click', async (e) => {
   }
 
   if (isReserveContain) {
+    const reservationCount = document.getElementById('reservationcount');
     if (isCard1Active) {
-      const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
+      const reservation = show.data.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, reservation);
+      await displayReservation(reservebtnid);
+      await reservationCounter(reservebtnid, reservationCount);
+      return false;
     }
     if (isCard2Active) {
-      // eslint-disable-next-line max-len
-      const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
+      const reservation = reality.realityGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, reservation);
+      await displayReservation(reservebtnid);
+      await reservationCounter(reservebtnid, reservationCount);
+      return false;
     }
     if (isCard3Active) {
-      // eslint-disable-next-line max-len
-      const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
+      const reservation = animation.animationGenre.find((item) => item.id === Number(reservebtnid));
+      await reservationModal(reservebtnid, reservation);
+      await displayReservation(reservebtnid);
+      await reservationCounter(reservebtnid, reservationCount);
+      return false;
     }
   }
 
   if (isCommentContain) {
-    console.log(isCommentContain)
-
+    const commentCount = document.getElementById('commentcount');
     if (isCardActive1) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = showcommentData.data.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
+      const comment = show.data.find((item) => item.id === Number(commentbtnid));
+      await commentModal(commentbtnid, comment);
+      await displayComment(commentbtnid);
+      await commentCounter(commentbtnid, commentCount);
+      return false;
     }
 
     if (isCardActive2) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = realitycommentData.realityGenre.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
+      const comment = reality.realityGenre.find((item) => item.id === Number(commentbtnid));
+      await commentModal(commentbtnid, comment);
+      await displayComment(commentbtnid);
+      await commentCounter(commentbtnid, commentCount);
+      return false;
     }
     if (isCardActive3) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = animationcommentData.animationGenre.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
+      const comment = animation.animationGenre.find((item) => item.id === Number(commentbtnid));
+      await commentModal(commentbtnid, comment);
+      await displayComment(commentbtnid);
+      await commentCounter(commentbtnid, commentCount);
+      return false;
     }
   }
+  return false;
 });
+closeCommentWindow();
+closeReservationWindow();
