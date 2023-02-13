@@ -286,7 +286,7 @@ const reRenderReserveList = async (listBox, id, listLength) => {
   const listData = (await displayReservation(id)).involvementsArr; 
   listLength.innerHTML = ""
   listLength.innerHTML = `
-  <h3>Comments (${listData.length})</h3>`
+  <h3>Reservations (${listData.length})</h3>`
 
   let displayList = '';
   for (let i = 0; i < listData.length; i += 1) {
