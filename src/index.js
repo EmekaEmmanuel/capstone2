@@ -265,8 +265,11 @@ const validateReservationInput = async (nameInput, startDateInput, endDateInput,
   }
 };
 
-const reRenderCommentList = async (listBox, id) => {
+const reRenderCommentList = async (listBox, id, listLength) => {
   const listData = (await displayComment(id)).involvementsArr;
+  listLength.innerHTML = ""
+  listLength.innerHTML = `
+  <h3>Comments (${listData.length})</h3>`
   let displayList = '';
   for (let i = 0; i < listData.length; i += 1) {
     displayList
@@ -278,8 +281,11 @@ const reRenderCommentList = async (listBox, id) => {
   listBox.innerHTML = displayList;
 };
 
-const reRenderReserveList = async (listBox, id) => {
+const reRenderReserveList = async (listBox, id, listLength) => {
   const listData = (await displayReservation(id)).involvementsArr;
+  listLength.innerHTML = ""
+  listLength.innerHTML = `
+  <h3>Reservations (${listData.length})</h3>`
   let displayList = '';
   for (let i = 0; i < listData.length; i += 1) {
     displayList
@@ -321,13 +327,14 @@ bodyTag.addEventListener('click', async (e) => {
     const closePopupTag = document.querySelector('.close_popup');
     const form = document.querySelector('.popup_form');
     const listBox = document.querySelector('.comment_holder');
+    const listLength = document.querySelector('.comment_h');
     const nameInput = document.querySelector('.nameInput');
     const textareaInput = document.querySelector('.textareaInput');
     const popUpBox = document.querySelector('.popup_container');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       await validateCommentInput(nameInput, textareaInput, id);
-      await reRenderCommentList(listBox, id);
+      await reRenderCommentList(listBox, id, listLength);
     });
     await closePopup(closePopupTag, popUpBox);
   }
@@ -340,6 +347,7 @@ bodyTag.addEventListener('click', async (e) => {
     const closePopupTag = document.querySelector('.close_popup');
     const form = document.querySelector('.popup_form');
     const listBox = document.querySelector('.comment_holder');
+    const listLength = document.querySelector('.comment_h');
     const popUpBox = document.querySelector('.popup_container');
     const nameInput = document.querySelector('.nameInput');
     const startDateInput = document.querySelector('.startdateInput');
@@ -347,7 +355,7 @@ bodyTag.addEventListener('click', async (e) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       await validateReservationInput(nameInput, startDateInput, endDateInput, id);
-      await reRenderReserveList(listBox, id);
+      await reRenderReserveList(listBox, id, listLength);
     });
     await closePopup(closePopupTag, popUpBox);
   }
