@@ -1,4 +1,4 @@
-import { involvementAPI, involvementID } from '../../config.js';
+import { involvementAPI, involvementID } from '../config.js';
 
 const sendComment = async (userComment) => {
   try {
@@ -9,15 +9,14 @@ const sendComment = async (userComment) => {
         charset: 'utf-8',
       },
       body: JSON.stringify(userComment),
+
     });
 
-    if (!res.ok) {
-      return false;
-    }
-    const data = await res.json();
+    if (!res.ok) throw new Error(`Error fetching item data: ${res.status}`);
+    const data = await res;
     return data;
   } catch (error) {
-    return false;
+    return error;
   }
 };
 export default sendComment;

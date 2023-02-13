@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1676032589967" clover="3.2.0">
-  <project timestamp="1676032589968" name="All files">
+<coverage generated="1676302485082" clover="3.2.0">
+  <project timestamp="1676302485082" name="All files">
     <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3" elements="6" coveredelements="6" complexity="0" loc="3" ncloc="3" packages="1" files="2" classes="2"/>
     <file name="dummyAPi.js" path="C:\Users\hp\Desktop\mistake\capstone2\src\modules\__test__\__mock__\dummyAPi.js">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>

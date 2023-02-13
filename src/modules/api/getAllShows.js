@@ -12,7 +12,7 @@ const getAllShows = async (baseURL) => {
     const realityLength = realityGenre.length;
     const animationGenre = data.filter((show) => show.type === 'Animation');
     const animationLength = animationGenre.length;
-    dataArr = [{ title: 'Shows', data, total: datalength }, { title: 'Reality', realityGenre, total: realityLength }, { title: 'Animation', animationGenre, total: animationLength }];
+    dataArr = [{ title: 'Shows', data, total: datalength }, { title: 'Reality', data:realityGenre, total: realityLength }, { title: 'Animation', data:animationGenre, total: animationLength }];
     return dataArr 
   } catch (error) {
     throw new Error();

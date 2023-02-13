@@ -1,4 +1,4 @@
-import { involvementAPI, involvementID } from '../../config.js';
+import { involvementAPI, involvementID } from '../config.js';
 
 const getComment = async (id) => {
   try {

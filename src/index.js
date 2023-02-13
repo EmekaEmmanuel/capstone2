@@ -1,26 +1,23 @@
 import './css/home.css';
-import './css/reservationStyle.css';
-import './css/commentStyle.css';
-import { getAllShowsURL } from './config.js';
-import getAllShows from './api/getAllShows.js';
-import displayHomeUI from './pageUI/displayHomeUI.js';
+import './css/popup.css';
 import loveImg from './images/love.png';
-import getAllLikes from './api/getAllLikes.js';
-import postAllLikes from './api/postAllLikes.js';
-import reservationUI from './pageUI/reservationUI.js';
-import reservationCounter from './modules/reservation/reservationCounter.js';
-import sendReservation from './modules/reservation/reservationPostAPI.js';
-import displayReservation from './modules/reservation/reservationDisplay.js';
-import commentUI from './pageUI/commentUI.js';
-import commentCounter from './modules/comment/commentCounter.js';
-import sendComment from './modules/comment/commentPostAPI.js';
-import displayComment from './modules/comment/commentDisplay.js';
+import { getAllShowsURL } from './modules/config.js';
+import getAllShows from './modules/api/getAllShows.js';
+import displayHomeUI from './modules/pageUI/displayHomeUI.js';
+import getAllLikes from './modules/api/getAllLikes.js';
+import postAllLikes from './modules/api/postAllLikes.js';
+import commentPopupUI from './modules/pageUI/commentPopupUI.js';
+import reservationPopupUI from './modules/pageUI/reservationPopupUI.js';
+import displayComment from './modules/api/commentDisplay.js';
+import displayReservation from './modules/api/reservationDisplay.js';
+import sendReservation from './modules/api/reservationPostAPI.js';
+import sendComment from './modules/api/commentPostAPI.js';
 
 const bodyTag = document.querySelector('.home_body');
 
 const HomeUI = () => {
   bodyTag.innerHTML = '';
-  bodyTag.innerHTML = reservationUI() + commentUI() + displayHomeUI();
+  bodyTag.innerHTML = displayHomeUI();
 };
 
 HomeUI();
@@ -108,7 +105,7 @@ const homeCard1 = async () => {
 };
 
 const homeCard2 = async () => {
-  const data = (await getAllShows(getAllShowsURL))[1].realityGenre;
+  const { data } = (await getAllShows(getAllShowsURL))[1];
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
@@ -146,7 +143,7 @@ const homeCard2 = async () => {
 };
 
 const homeCard3 = async () => {
-  const data = (await getAllShows(getAllShowsURL))[2].animationGenre;
+  const { data } = (await getAllShows(getAllShowsURL))[2];
   const likeData = await getAllLikes();
   data.forEach((x) => {
     likeData.forEach((y) => {
@@ -186,81 +183,11 @@ const rerenderCards = async () => {
   await homeCard3();
 };
 
-const Tabselector = async () => {
-  navTag.addEventListener('click', async (e) => {
-    const clicked = e.target.closest('.nav_item');
-    const clickedSpan = document.querySelector(`.span${clicked.dataset.tab}`);
-    const clickedSection = document.querySelector(`.home_section${clicked.dataset.tab}`);
-    spanActiveRemove();
-    activateClickedSpan(clickedSpan);
-    sectionActiveRemove();
-    activateClickedSection(clickedSection);
-  });
-};
-
 window.addEventListener('load', async () => {
   await dynamicNav();
   await rerenderCards();
   await getAllLikes();
-  await Tabselector();
 });
-
-// added for reservation modal
-const reservationModal = async (reservebtnid, selectedObject) => {
-  const reservationCount = document.getElementById('reservationcount');
-  const reservation = document.getElementById('reservation');
-  const userName = document.getElementById('username');
-  const startDate = document.getElementById('startdate');
-  const endDate = document.getElementById('enddate');
-  const reserveButton = document.getElementById('reservebutton');
-  const reservePicture = document.getElementById('reservepicture');
-  const reserveName = document.getElementById('reservename');
-  const reserveLanguage = document.getElementById('reservelanguage');
-  const reserveStatus = document.getElementById('reservestatus');
-  const reserveAverageRuntime = document.getElementById('reserveaverageRuntime');
-  const reservetype = document.getElementById('reservetype');
-  reservation.style.display = 'block';
-  // fetch data from api
-  // count reservation
-  reservationCounter(reservebtnid, reservationCount);
-  // display reservation
-  displayReservation(reservebtnid);
-  // reservation event handling
-  // update  information
-
-  reservePicture.src = selectedObject.image.original;
-  reserveName.innerHTML = selectedObject.name;
-  reserveLanguage.innerHTML = `Language: ${selectedObject.language}`;
-  reserveAverageRuntime.innerHTML = `AverageRuntime: ${selectedObject.averageRuntime}`;
-  reserveStatus.innerHTML = `Status: ${selectedObject.status}`;
-  reservetype.innerHTML = `Type: ${selectedObject.type}`;
-  reserveButton.addEventListener('click', async () => {
-    if (userName.value.trim() !== '' && startDate.value.trim() !== '' && endDate.value.trim() !== '') {
-      const reservationdata = {
-        item_id: +reservebtnid,
-        username: userName.value.trim(),
-        date_start: startDate.value.trim(),
-        date_end: endDate.value.trim(),
-      };
-      await sendReservation(reservationdata);
-      userName.value = '';
-      startDate.value = '';
-      endDate.value = '';
-      displayReservation(reservebtnid);
-      reservationCounter(reservebtnid, reservationCount);
-    } else {
-      reservebtnid.preventDefault();
-    }
-  });
-};
-// close button for reservation window
-const closeReservationWindow = async () => {
-  const reservationClose = document.getElementById('reservationclose');
-  const reservation = document.getElementById('reservation');
-  reservationClose.addEventListener('click', () => {
-    reservation.style.display = 'none';
-  });
-};
 
 navTag.addEventListener('click', async (e) => {
   const clicked = e.target.closest('.nav_item');
@@ -287,82 +214,93 @@ const displayCardCount = async (countUI, id) => {
   });
 };
 
-const commentModal = async (commentbtnid, selectedcommentObject) => {
-  const commentCount = document.getElementById('commentcount');
-  const comment = document.getElementById('comment');
-
-  const userNamecomment = document.getElementById('usernamecomment');
-  const userComment = document.getElementById('usercomment');
-
-  const commentButton = document.getElementById('commentbutton');
-  const commentPicture = document.getElementById('commentpicture');
-  const commentName = document.getElementById('commentname');
-  const commentLanguage = document.getElementById('commentlanguage');
-  const commentStatus = document.getElementById('commentstatus');
-  const commentAverageRuntime = document.getElementById('commentaverageRuntime');
-  const commenttype = document.getElementById('commenttype');
-  comment.style.display = 'block';
-  // fetch data from api
-  // count reservation
-  commentCounter(commentbtnid, commentCount);
-  // display reservation
-  displayComment(commentbtnid);
-  // reservation event handling
-  // update  information
-
-  commentPicture.src = selectedcommentObject.image.original;
-  commentName.innerHTML = selectedcommentObject.name;
-  commentLanguage.innerHTML = `Language: ${selectedcommentObject.language}`;
-  commentAverageRuntime.innerHTML = `AverageRuntime: ${selectedcommentObject.averageRuntime}`;
-  commentStatus.innerHTML = `Status: ${selectedcommentObject.status}`;
-  commenttype.innerHTML = `Type: ${selectedcommentObject.type}`;
-  commentButton.addEventListener('click', async () => {
-    if (userNamecomment.value.trim() !== '' && userComment.value.trim() !== '') {
-      const commentdata = {
-        item_id: +commentbtnid,
-        username: userNamecomment.value.trim(),
-        comment: userComment.value.trim(),
-
-      };
-      await sendComment(commentdata);
-      userNamecomment.value = '';
-      userComment.value = '';
-      displayComment(commentbtnid);
-      commentCounter(commentbtnid, commentCount);
-    } else {
-      commentbtnid.preventDefault();
-    }
-  });
+const clearCommentInputs = (nameInput, textareaInput) => {
+  nameInput.value = '';
+  textareaInput.value = '';
 };
 
-const closeCommentWindow = async () => {
-  const commentClose = document.getElementById('commentclose');
-  const comment = document.getElementById('comment');
-  commentClose.addEventListener('click', () => {
-    comment.style.display = 'none';
+const clearReserveInputs = async (nameInput, startDateInput, endDateInput) => {
+  nameInput.value = '';
+  startDateInput.value = '';
+  endDateInput.value = '';
+};
+
+const submitComment = async (nameInput, textareaInput, id) => {
+  const commentDetails = {
+    item_id: id,
+    username: nameInput.value,
+    comment: textareaInput.value,
+  };
+  await sendComment(commentDetails);
+  clearCommentInputs(nameInput, textareaInput);
+};
+
+const submitReservation = async (nameInput, startDateInput, endDateInput, id) => {
+  const reservationDetails = {
+    item_id: id,
+    username: nameInput.value,
+    date_start: startDateInput.value,
+    date_end: endDateInput.value,
+  };
+  await sendReservation(reservationDetails);
+  await clearReserveInputs(nameInput, startDateInput, endDateInput);
+};
+
+const validateCommentInput = async (nameInput, textareaInput, id) => {
+  if (nameInput.value.trim() === '' || textareaInput.value.trim() === '') {
+    nameInput.value = 'Enter name input';
+    textareaInput.value = 'Enter value correctly';
+  } else {
+    await submitComment(nameInput, textareaInput, id);
+  }
+};
+
+const validateReservationInput = async (nameInput, startDateInput, endDateInput, id) => {
+  if (nameInput.value.trim() === '' || startDateInput.value.trim() === '' || endDateInput.value.trim() === '') {
+    nameInput.value = 'Enter name input';
+    endDateInput.value = 'Enter value correctly';
+    endDateInput.value = 'Enter value correctly';
+  } else {
+    await submitReservation(nameInput, startDateInput, endDateInput, id);
+  }
+};
+
+const reRenderCommentList = async (listBox, id) => {
+  const listData = (await displayComment(id)).involvementsArr;
+  let displayList = '';
+  for (let i = 0; i < listData.length; i += 1) {
+    displayList
+    += `<li>
+       ${listData[i].creation_date} - ${listData[i].username} - ${listData[i].comment}
+      </li> `;
+  }
+  listBox.innerHTML = '';
+  listBox.innerHTML = displayList;
+};
+
+const reRenderReserveList = async (listBox, id) => {
+  const listData = (await displayReservation(id)).involvementsArr;
+  let displayList = '';
+  for (let i = 0; i < listData.length; i += 1) {
+    displayList
+    += `<li>
+       ${listData[i].username} - ${listData[i].date_start} - ${listData[i].date_end}
+      </li> `;
+  }
+  listBox.innerHTML = '';
+  listBox.innerHTML = displayList;
+};
+
+const closePopup = async (closepopuptag, popupboxx) => {
+  closepopuptag.addEventListener('click', () => {
+    popupboxx.remove();
   });
 };
 
 bodyTag.addEventListener('click', async (e) => {
   const checkLikeBtn = e.target.classList.contains('like_btn');
-
-  const isReserveContain = e.target.classList.contains('reserve_btn');
-  const reservebtnid = e.target.id;
-  const showData = (await getAllShows(getAllShowsURL))[0];
-  const realityData = (await getAllShows(getAllShowsURL))[1];
-  const animationData = (await getAllShows(getAllShowsURL))[2];
-  const isCard1Active = homeSection1Tag.classList.contains('home_active');
-  const isCard2Active = homeSection2Tag.classList.contains('home_active');
-  const isCard3Active = homeSection3Tag.classList.contains('home_active');
-
-  const isCommentContain = e.target.classList.contains('comment_btn');
-  const commentbtnid = e.target.id;
-  const showcommentData = (await getAllShows(getAllShowsURL))[0];
-  const realitycommentData = (await getAllShows(getAllShowsURL))[1];
-  const animationcommentData = (await getAllShows(getAllShowsURL))[2];
-  const isCardActive1 = homeSection1Tag.classList.contains('home_active');
-  const isCardActive2 = homeSection2Tag.classList.contains('home_active');
-  const isCardActive3 = homeSection3Tag.classList.contains('home_active');
+  const checkCommentBtn = e.target.classList.contains('comment_btn');
+  const checkReservationBtn = e.target.classList.contains('reserve_btn');
 
   if (checkLikeBtn) {
     const clickedLike = e.target;
@@ -375,47 +313,42 @@ bodyTag.addEventListener('click', async (e) => {
     await rerenderCards();
   }
 
-  if (isReserveContain) {
-    if (isCard1Active) {
-      const selectedObject = showData.data.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
-    }
-    if (isCard2Active) {
-      // eslint-disable-next-line max-len
-      const selectedObject = realityData.realityGenre.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
-    }
-    if (isCard3Active) {
-      // eslint-disable-next-line max-len
-      const selectedObject = animationData.animationGenre.find((item) => item.id === Number(reservebtnid));
-      await reservationModal(reservebtnid, selectedObject);
-      await closeReservationWindow();
-    }
+  if (checkCommentBtn) {
+    const { id } = e.target;
+    const movieObject = await displayComment(id);
+    const commentPopUp = await commentPopupUI(movieObject);
+    bodyTag.insertAdjacentHTML('beforeend', commentPopUp);
+    const closePopupTag = document.querySelector('.close_popup');
+    const form = document.querySelector('.popup_form');
+    const listBox = document.querySelector('.comment_holder');
+    const nameInput = document.querySelector('.nameInput');
+    const textareaInput = document.querySelector('.textareaInput');
+    const popUpBox = document.querySelector('.popup_container');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await validateCommentInput(nameInput, textareaInput, id);
+      await reRenderCommentList(listBox, id);
+    });
+    await closePopup(closePopupTag, popUpBox);
   }
 
-  if (isCommentContain) {
-    console.log(isCommentContain)
-
-    if (isCardActive1) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = showcommentData.data.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
-    }
-
-    if (isCardActive2) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = realitycommentData.realityGenre.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
-    }
-    if (isCardActive3) {
-      // eslint-disable-next-line max-len
-      const selectedcommentObject = animationcommentData.animationGenre.find((item) => item.id === Number(commentbtnid));
-      await commentModal(commentbtnid, selectedcommentObject);
-      await closeCommentWindow();
-    }
+  if (checkReservationBtn) {
+    const id = parseFloat(e.target.id);
+    const movieObject = await displayReservation(id);
+    const reservationPopUp = await reservationPopupUI(movieObject);
+    bodyTag.insertAdjacentHTML('beforeend', reservationPopUp);
+    const closePopupTag = document.querySelector('.close_popup');
+    const form = document.querySelector('.popup_form');
+    const listBox = document.querySelector('.comment_holder');
+    const popUpBox = document.querySelector('.popup_container');
+    const nameInput = document.querySelector('.nameInput');
+    const startDateInput = document.querySelector('.startdateInput');
+    const endDateInput = document.querySelector('.enddateInput');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await validateReservationInput(nameInput, startDateInput, endDateInput, id);
+      await reRenderReserveList(listBox, id);
+    });
+    await closePopup(closePopupTag, popUpBox);
   }
 });
