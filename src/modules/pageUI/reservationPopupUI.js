@@ -25,7 +25,7 @@ const reservationPopupUI = async (selectedMovie) => `
             </article>
 
             <div class="comment_box">
-                <h3>Reservations (${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.length : 0})</h3>
+                <h3  class="comment_h">Reservations (${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.length : 0})</h3>
                 <ul class="comment_holder"> ${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.map((e) => `
                 <li>
                          ${e.username} - ${e.date_start} - ${e.date_end}

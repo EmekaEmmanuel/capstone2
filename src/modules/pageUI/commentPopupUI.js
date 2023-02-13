@@ -25,7 +25,7 @@ const commentPopupUI = async (selectedMovie) => `
             </article>
 
             <div class="comment_box">
-                <h3>Comments (${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.length : 0})</h3>
+                <h3 class="comment_h">Comments (${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.length : 0})</h3>
                 <ul class="comment_holder"> ${selectedMovie.involvementsArr ? selectedMovie.involvementsArr.map((e) => `
                 <li>
                          ${e.creation_date} - ${e.username} - ${e.comment}
